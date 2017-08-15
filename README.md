@@ -6,6 +6,5 @@ Controle de estoque desenvolvido na linguagem C
 
 Assista os vídeos
 
-    https://www.youtube.com/watch?v=UMhskLXJuq4
-    https://www.youtube.com/watch?v=neDiLHwXSVo
-
+* https://www.youtube.com/watch?v=UMhskLXJuq4
+* https://www.youtube.com/watch?v=neDiLHwXSVo

@@ -1,6 +1,6 @@
 all: compilar
 
-compilar: main.o paises.o
+compilar: main.o paises.o gerais.o
 	gcc build/paises.o build/main.o build/gerais.o -o controleestoque.bin `pkg-config --libs mysqlclient`
 
 main.o: src/main.c

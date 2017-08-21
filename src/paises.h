@@ -2,6 +2,7 @@
 #define PAISES_H
 
 #include <stdio.h>
+#include <string.h>
 #include <mysql/mysql.h>
 #include "diretivas_conexao.h"
 #include "gerais.h"
@@ -22,11 +23,18 @@ void mostrarListagemPaises();
 /**
  * Apresenta o cadastro de países
  */
-void mostrarCadastroPaises();
+void mostrarCadastroPais();
 
 /**
  * Função para inserção de um país no banco de dados
  */
 void inserirPais(Pais p);
+
+void excluirPais(int codigo);
+Pais* selecionarPais(int codigo);
+
+void mostrarAlteracaoPais();
+void mostrarExclusaoPais();
+void excluirPais(int codigo);
 
 #endif

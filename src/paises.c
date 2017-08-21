@@ -6,55 +6,68 @@
  * Data: 15/08/2017
  */
 void mostrarListagemPaises(){
-	limparTela();
-	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-	printf("| LISTAGEM DE PAÍSES                                                                                                |\n");
-	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-	printf("| ID         | NOME                                                                                                 |\n");
-	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+	int opcao;
 
-	//Cria a variável de conexão com o MySQL
-	MYSQL mysql;
-	mysql_init(&mysql);
+	do {
+		limparTela();
+		printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+		printf("| LISTAGEM DE PAÍSES                                                                                                |\n");
+		printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+		printf("| ID         | NOME                                                                                                 |\n");
+		printf("|-------------------------------------------------------------------------------------------------------------------|\n");
 
-	//Efetua a conexão
-	if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
-		//Executa o comando de consulta
-		if (mysql_query(&mysql, "select id, nome from paises order by nome") == 0){
-			//Obtém o resultado
-			MYSQL_RES *resultado = mysql_store_result(&mysql);
+		//Cria a variável de conexão com o MySQL
+		MYSQL mysql;
+		mysql_init(&mysql);
 
-			//Cria uma variável para guardar a linha
-			MYSQL_ROW linha;
-			int *id; 
-			char *nome;
-			while ( (linha = mysql_fetch_row(resultado)) ){
-				//Obtém cada coluna na órdem
-				*id = atoi(linha[0]);
-				nome = linha[1];
+		//Efetua a conexão
+		if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+			//Executa o comando de consulta
+			if (mysql_query(&mysql, "select id, nome from paises order by nome") == 0){
+				//Obtém o resultado
+				MYSQL_RES *resultado = mysql_store_result(&mysql);
 
-				//Imprime cada linha
-				printf("| %10d | %-100s |\n", *id, nome);
+				//Cria uma variável para guardar a linha
+				MYSQL_ROW linha;
+				int *id; 
+				char *nome;
+				while ( (linha = mysql_fetch_row(resultado)) ){
+					//Obtém cada coluna na órdem
+					*id = atoi(linha[0]);
+					nome = linha[1];
+
+					//Imprime cada linha
+					printf("| %10d | %-100s |\n", *id, nome);
+				}
+
+				//Libera os resultado e fecha a conexão
+				mysql_free_result(resultado);
+				mysql_close(&mysql);
+			} else {
+				printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
 			}
-
-			//Libera os resultado e fecha a conexão
-			mysql_free_result(resultado);
-			mysql_close(&mysql);
 		} else {
-			printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+			printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
 		}
-	} else {
-		printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
-	}
 
-	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+		printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+	
+		printf("O que deseja fazer?\n");
+		printf("1) Cadastrar um novo país\n");
+		printf("2) Alterar um país\n");
+		printf("3) Excluir um país\n");
+		printf("4) Voltar ao menu principal\n\n");
 
-	printf("Deseja cadastrar um novo país? (S/N) ");
-	char resposta = getchar(); getchar();
+		printf("Digite a opção desejada: ");
+		scanf("%d", &opcao);
+		getchar();
 
-	if (resposta == 'S' || resposta == 's'){
-		mostrarCadastroPaises();
-	}
+		switch (opcao){
+			case 1: mostrarCadastroPais(); break;
+			case 2: mostrarAlteracaoPais(); break;
+			case 3: mostrarExclusaoPais(); break;
+		}
+	} while (opcao != 4);
 }
 
 /**
@@ -62,7 +75,7 @@ void mostrarListagemPaises(){
  * Autor: Ronneesley Moura Teles
  * Data: 15/08/2017
  */
-void mostrarCadastroPaises() {
+void mostrarCadastroPais() {
 	Pais p;
 
 	limparTela();
@@ -71,8 +84,8 @@ void mostrarCadastroPaises() {
 	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
 
 	printf("| NOME: ");
-	fgets(p.nome, sizeof(p.nome), stdin);	
-
+	fgets(p.nome, sizeof(p.nome), stdin);
+	int tamanho = strlen(p.nome); p.nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
 	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
 
 	printf("Deseja realmente criar o país? (S/N) ");
@@ -110,4 +123,102 @@ void inserirPais(Pais p){
 	} else {
 		printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
 	}
+}
+
+void excluirPais(int codigo){
+	//Inicializa a variável de conexão com o MySQL
+	MYSQL mysql;
+	mysql_init(&mysql);
+
+	//Conecta no banco de dados
+	if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+		//Cria o comando SQL para envio
+		char sql[500];
+		snprintf(sql, 500, "delete from paises where id = %d", codigo);
+
+		//Envia o comando e analisa a resposta
+		if (mysql_query(&mysql, sql) == 0){
+			mysql_close(&mysql); //Encerra a conexão
+
+			printf("País excluído com sucesso\n"); //Exibe mensagem de sucesso
+		} else {
+			printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+		}
+	} else {
+		printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+	}
+}
+
+Pais* selecionarPais(int codigo){
+	//Cria a variável de conexão com o MySQL
+	MYSQL mysql;
+	mysql_init(&mysql);
+
+	//Efetua a conexão
+	if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+		char sql[500];
+		snprintf(sql, 500, "select id, nome from paises where id = %d", codigo);
+	
+		//Executa o comando de consulta
+		if (mysql_query(&mysql, sql) == 0){
+			//Obtém o resultado
+			MYSQL_RES *resultado = mysql_store_result(&mysql);
+
+			//Cria uma variável para guardar a linha
+			MYSQL_ROW linha;
+			int *id; 
+			char *nome;
+			if ( (linha = mysql_fetch_row(resultado)) ){
+				//Obtém cada coluna na órdem
+				*id = atoi(linha[0]);
+				
+				//Libera os resultado e fecha a conexão
+				mysql_free_result(resultado);
+				mysql_close(&mysql);
+				
+				Pais pais;
+				Pais *p = &pais;
+				strncpy(p->nome, linha[1], 100);
+				p->id = *id;
+
+				//Imprime cada linha
+				return p;
+			} else {
+				//Libera os resultado e fecha a conexão
+				mysql_free_result(resultado);
+				mysql_close(&mysql);
+				
+				return NULL;
+			}
+		} else {
+			printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+		}
+	} else {
+		printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+	}
+}
+
+void mostrarAlteracaoPais(){
+	int codigo;
+	printf("Digite o código do país que deseja alterar: ");
+	scanf("%d", &codigo);
+	getchar();
+	
+	Pais *p = selecionarPais(codigo);
+	
+	printf("Dados atuais do país\n");
+	printf("Id: %d\n", p->id);
+	printf("Nome: %s\n", p->nome);
+	
+	getchar();
+}
+
+void mostrarExclusaoPais(){
+	int codigo;
+	printf("Digite o código do país que deseja excluir: ");
+	scanf("%d", &codigo);
+	getchar();
+	
+	excluirPais(codigo);
+	getchar();
 }

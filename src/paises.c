@@ -57,8 +57,7 @@ void mostrarListagemPaises(){
 		printf("4) Voltar ao menu principal\n\n");
 
 		printf("Digite a opção desejada: ");
-		scanf("%d", &opcao);
-		getchar();
+		scanf("%d", &opcao); getchar();
 
 		switch (opcao){
 			case 1: mostrarCadastroPais(); break;
@@ -115,6 +114,30 @@ void inserirPais(Pais p){
 			mysql_close(&mysql); //Encerra a conexão
 
 			printf("País cadastrado com sucesso\n"); //Exibe mensagem de sucesso
+		} else {
+			printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+		}
+	} else {
+		printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+	}
+}
+
+void alterarPais(Pais p){
+	//Inicializa a variável de conexão com o MySQL
+	MYSQL mysql;
+	mysql_init(&mysql);
+
+	//Conecta no banco de dados
+	if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+		//Cria o comando SQL para envio
+		char sql[500];
+		snprintf(sql, 500, "update paises set nome = '%s' where id = %d", p.nome, p.id);
+
+		//Envia o comando e analisa a resposta
+		if (mysql_query(&mysql, sql) == 0){
+			mysql_close(&mysql); //Encerra a conexão
+
+			printf("País alterado com sucesso\n"); //Exibe mensagem de sucesso
 		} else {
 			printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
 		}
@@ -199,14 +222,31 @@ Pais* selecionarPais(int codigo){
 void mostrarAlteracaoPais(){
 	int codigo;
 	printf("Digite o código do país que deseja alterar: ");
-	scanf("%d", &codigo);
-	getchar();
+	scanf("%d", &codigo); getchar();
 	
 	Pais *p = selecionarPais(codigo);
 	
-	printf("Dados atuais do país\n");
-	printf("Id: %d\n", p->id);
-	printf("Nome: %s\n", p->nome);
+	limparTela();
+	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+	printf("| CADASTRO DE PAÍSES                                                                                                |\n");
+	printf("|-------------------------------------------------------------------------------------------------------------------|\n");	
+	printf("| Id: %d\n", p->id);
+	printf("| Nome: %s\n", p->nome);
+	printf("|-------------------------------------------------------------------------------------------------------------------|\n");	
+	
+	printf("Digite o novo nome do país: ");
+	char nome[100];
+	fgets(nome, sizeof(nome), stdin);
+	int tamanho = strlen(nome); nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+	strncpy(p->nome, nome, 100);
+	printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+	
+	printf("Deseja realmente salvar as alterações? (S/N) ");
+	char resposta = getchar(); getchar();
+
+	if (resposta == 'S' || resposta == 's'){
+		alterarPais(*p);
+	}
 	
 	getchar();
 }

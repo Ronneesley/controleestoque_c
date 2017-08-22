@@ -35,7 +35,7 @@ void mostrarListagemPaises(){
 					char *nome = linha[1];
 
 					//Imprime cada linha
-					printf("| %10d | %-100s |\n", *id, nome);
+					printf("| %10d | %-100s |\n", id, nome);
 				}
 
 				//Libera os resultado e fecha a conexão

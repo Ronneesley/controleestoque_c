@@ -29,8 +29,8 @@ void mostrarCadastroPais();
  * Função para inserção de um país no banco de dados
  */
 void inserirPais(Pais p);
-
 void excluirPais(int codigo);
+void alterarPais(Pais p);
 Pais* selecionarPais(int codigo);
 
 void mostrarAlteracaoPais();

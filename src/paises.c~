@@ -31,7 +31,7 @@ void mostrarListagemPaises(){
 				MYSQL_ROW linha;
 				while ( (linha = mysql_fetch_row(resultado)) ){
 					//Obtém cada coluna na órdem
-					int id = atoi(linha[0]);
+					int *id = atoi(linha[0]);
 					char *nome = linha[1];
 
 					//Imprime cada linha

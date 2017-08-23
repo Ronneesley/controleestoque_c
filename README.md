@@ -28,7 +28,7 @@ Assista os vídeos
 
 # Contribuidores
 
-Ronneesley Moura Teles (Orientador)
+Adriano Honorato Braga e Ronneesley Moura Teles (Orientadores)
 
 Alexandre Ferreira Lopes
 

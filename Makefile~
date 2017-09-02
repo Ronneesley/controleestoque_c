@@ -8,9 +8,12 @@ main.o: src/main.c
 
 paises.o: src/paises.c src/diretivas_conexao.h
 	gcc -c src/paises.c -o build/paises.o
+	
+produtos.o: src/produtos.c src/diretivas_conexao.h
+	gcc -c src/produtos.c -o build/produtos.o
 
 gerais.o: src/gerais.c
-	gcc -c src/gerais.c -o build/gerais.o
+	gcc -c src/gerais.c -o build/gerais.o	
 
 clean:
 	rm -rf build/*.o

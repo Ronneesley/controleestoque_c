@@ -74,7 +74,7 @@ void mostrarListagemProdutos(){
 
 
 /**
- * mostra os produtos cadastrados.
+ * mostra tela de cadastro de produtos.
  * Autor: João Crisóstomo de Siqueira Neto 
  * Data: 26/08/2017
  */

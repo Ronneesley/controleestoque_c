@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "paises.h"
 #include "gerais.h"
+#include "produtos.h"
 
 /**
  * Mostra o menu principal do sistema
@@ -31,6 +32,7 @@ void mostrarMenuPrincipal(){
 
 		switch (opcao){
 			case 1: mostrarListagemPaises(); break;
+			case 5: mostrarListagemProdutos(); break; //Um erro aponta aqui
 			case 9: 
 				printf("Até a próxima vez!\n");
 				break;

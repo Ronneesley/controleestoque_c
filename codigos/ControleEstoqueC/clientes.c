@@ -25,7 +25,7 @@ int validarDia(int data_dia){
     return data_dia < 1 || data_dia > 31;
 }
 
-int main() {
+void mostrarCadastroClientes() {
     //Declaracao de variaveis
     struct data {
         int data_ano;
@@ -110,6 +110,4 @@ int main() {
     } while (cadastroCliente.nome != "");
 
     system ("PAUSE");
-    return 0;
 }
-

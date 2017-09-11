@@ -5,7 +5,7 @@ Ferramenta utilizada para o ensino de programação no curso de Sistemas de Info
 
 # Ferramentas utilizadas
 
-Os projetos foram desenvolvidos utilizando apenas o *gedit*.
+Os projetos foram desenvolvidos utilizando o NetBeans 8.2.
 
 # Como compilar o projeto?
 

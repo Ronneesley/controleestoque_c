@@ -7,6 +7,10 @@ Ferramenta utilizada para o ensino de programação no curso de Sistemas de Info
 
 Os projetos foram desenvolvidos utilizando o NetBeans 8.2.
 
+Em ambiente Windows é necessário instalar o MinGW seguindo o manual de configuração disponvel em:
+
+https://netbeans.org/community/releases/80/cpp-setup-instructions.html#compilers_windows
+
 # Como compilar o projeto?
 
 Para compilar é necessário apenas emitir o comando:

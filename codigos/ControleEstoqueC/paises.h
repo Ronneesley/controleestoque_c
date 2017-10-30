@@ -11,8 +11,8 @@
  * Estrutura para representar um pais
  */
 typedef struct {
-	int id;
-	char nome[100];
+    int id;
+    char nome[100];
 } Pais;
 
 /**

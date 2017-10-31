@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Arquivos de Cabeçalho"
                    projectFiles="true">
+      <itemPath>cidade.h</itemPath>
       <itemPath>clientes.h</itemPath>
       <itemPath>diretivas_conexao.h</itemPath>
       <itemPath>gerais.h</itemPath>
@@ -12,6 +13,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
+      <itemPath>cidade.c</itemPath>
       <itemPath>clientes.c</itemPath>
       <itemPath>gerais.c</itemPath>
       <itemPath>main.c</itemPath>
@@ -50,6 +52,10 @@
           <commandLine>`mysql_config --libs`</commandLine>
         </linkerTool>
       </compileType>
+      <item path="cidade.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="cidade.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="clientes.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="clientes.h" ex="false" tool="3" flavor2="0">
@@ -90,6 +96,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="cidade.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="cidade.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="clientes.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="clientes.h" ex="false" tool="3" flavor2="0">

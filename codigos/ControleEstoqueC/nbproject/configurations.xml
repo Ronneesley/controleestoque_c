@@ -4,15 +4,18 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Arquivos de Cabeçalho"
                    projectFiles="true">
+      <itemPath>cidade.h</itemPath>
       <itemPath>clientes.h</itemPath>
       <itemPath>diretivas_conexao.h</itemPath>
       <itemPath>estados.h</itemPath>
       <itemPath>gerais.h</itemPath>
       <itemPath>paises.h</itemPath>
+      <itemPath>produtos.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
+      <itemPath>cidade.c</itemPath>
       <itemPath>clientes.c</itemPath>
       <itemPath>estados.c</itemPath>
       <itemPath>gerais.c</itemPath>
@@ -52,6 +55,10 @@
           <commandLine>`mysql_config --libs`</commandLine>
         </linkerTool>
       </compileType>
+      <item path="cidade.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="cidade.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="clientes.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="clientes.h" ex="false" tool="3" flavor2="0">
@@ -73,6 +80,8 @@
       <item path="paises.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="produtos.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="produtos.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -96,6 +105,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="cidade.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="cidade.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="clientes.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="clientes.h" ex="false" tool="3" flavor2="0">
@@ -117,6 +130,8 @@
       <item path="paises.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="produtos.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="produtos.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

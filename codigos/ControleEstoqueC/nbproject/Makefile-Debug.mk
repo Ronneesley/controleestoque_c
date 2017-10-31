@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/cidade.o \
 	${OBJECTDIR}/clientes.o \
 	${OBJECTDIR}/estados.o \
 	${OBJECTDIR}/gerais.o \
@@ -66,6 +67,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controleestoquec: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controleestoquec ${OBJECTFILES} ${LDLIBSOPTIONS} `mysql_config --libs`
+
+${OBJECTDIR}/cidade.o: cidade.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/cidade.o cidade.c
 
 ${OBJECTDIR}/clientes.o: clientes.c
 	${MKDIR} -p ${OBJECTDIR}

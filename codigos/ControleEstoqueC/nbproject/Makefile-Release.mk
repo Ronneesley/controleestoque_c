@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/clientes.o \
+	${OBJECTDIR}/estados.o \
 	${OBJECTDIR}/gerais.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/paises.o \
@@ -70,6 +71,11 @@ ${OBJECTDIR}/clientes.o: clientes.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/clientes.o clientes.c
+
+${OBJECTDIR}/estados.o: estados.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/estados.o estados.c
 
 ${OBJECTDIR}/gerais.o: gerais.c
 	${MKDIR} -p ${OBJECTDIR}

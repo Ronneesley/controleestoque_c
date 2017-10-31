@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "paises.h"
+#include "estados.h"
 #include "clientes.h"
 #include "gerais.h"
 
@@ -32,6 +33,7 @@ void mostrarMenuPrincipal(){
 
         switch (opcao){
             case 1: mostrarListagemPaises(); break;
+            case 2: mostrarListagemEstados(); break;
             case 4: mostrarCadastroClientes(); break;
             case 9: 
                 printf("Até a próxima vez!\n");

@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>clientes.h</itemPath>
       <itemPath>diretivas_conexao.h</itemPath>
+      <itemPath>estados.h</itemPath>
       <itemPath>gerais.h</itemPath>
       <itemPath>paises.h</itemPath>
     </logicalFolder>
@@ -13,6 +14,7 @@
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
       <itemPath>clientes.c</itemPath>
+      <itemPath>estados.c</itemPath>
       <itemPath>gerais.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>paises.c</itemPath>
@@ -56,6 +58,10 @@
       </item>
       <item path="diretivas_conexao.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="estados.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="estados.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="gerais.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="gerais.h" ex="false" tool="3" flavor2="0">
@@ -95,6 +101,10 @@
       <item path="clientes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="diretivas_conexao.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="estados.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="estados.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="gerais.c" ex="false" tool="0" flavor2="0">
       </item>

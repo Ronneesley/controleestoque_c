@@ -10,11 +10,11 @@ void mostrarListagemPaises(){
 
     do {
         limparTela();
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-        printf("| LISTAGEM DE PAÍSES                                                                                                |\n");
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-        printf("| ID         | NOME                                                                                                 |\n");
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+        printf("|--------------------------------------------------------------------|\n");
+        printf("| LISTAGEM DE PAÍSES                                                 |\n");
+        printf("|--------------------------------------------------------------------|\n");
+        printf("| ID         | NOME                                                  |\n");
+        printf("|--------------------------------------------------------------------|\n");
 
         //Cria a variável de conexão com o MySQL
         MYSQL mysql;
@@ -35,7 +35,7 @@ void mostrarListagemPaises(){
                     char *nome = linha[1];
 
                     //Imprime cada linha
-                    printf("| %10d | %-100s |\n", id, nome);
+                    printf("| %10d | %-53s |\n", id, nome);
                 }
 
                 //Libera os resultado e fecha a conexão
@@ -48,7 +48,7 @@ void mostrarListagemPaises(){
             printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
         }
 
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+        printf("|--------------------------------------------------------------------|\n");
 
         printf("O que deseja fazer?\n");
         printf("1) Cadastrar um novo país\n");
@@ -76,14 +76,14 @@ void mostrarCadastroPais() {
     Pais p;
 
     limparTela();
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-    printf("| CADASTRO DE PAÍSES                                                                                                |\n");
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+    printf("|--------------------------------------------------------------------|\n");
+    printf("| CADASTRO DE PAÍSES                                                 |\n");
+    printf("|--------------------------------------------------------------------|\n");
 
     printf("| NOME: ");
     fgets(p.nome, sizeof(p.nome), stdin);
     int tamanho = strlen(p.nome); p.nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+    printf("|--------------------------------------------------------------------|\n");
 
     printf("Deseja realmente criar o país? (S/N) ");
     char resposta = getchar(); getchar();
@@ -187,11 +187,11 @@ Pais* selecionarPais(int codigo){
 
             //Cria uma variável para guardar a linha
             MYSQL_ROW linha;
-            int *id; 
+            int id; 
             char *nome;
             if ( (linha = mysql_fetch_row(resultado)) ){
                 //Obtém cada coluna na órdem
-                *id = atoi(linha[0]);
+                id = atoi(linha[0]);
 
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
@@ -200,7 +200,7 @@ Pais* selecionarPais(int codigo){
                 Pais pais;
                 Pais *p = &pais;
                 strncpy(p->nome, linha[1], 100);
-                p->id = *id;
+                p->id = id;
 
                 //Imprime cada linha
                 return p;
@@ -227,19 +227,19 @@ void mostrarAlteracaoPais(){
     Pais *p = selecionarPais(codigo);
 
     limparTela();
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-    printf("| CADASTRO DE PAÍSES                                                                                                |\n");
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");	
+    printf("|--------------------------------------------------------------------|\n");
+    printf("| CADASTRO DE PAÍSES                                                 |\n");
+    printf("|--------------------------------------------------------------------|\n");
     printf("| Id: %d\n", p->id);
     printf("| Nome: %s\n", p->nome);
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");	
+    printf("|--------------------------------------------------------------------|\n");
 
     printf("Digite o novo nome do país: ");
     char nome[100];
     fgets(nome, sizeof(nome), stdin);
     int tamanho = strlen(nome); nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
     strncpy(p->nome, nome, 100);
-    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+    printf("|--------------------------------------------------------------------|\n");
 
     printf("Deseja realmente salvar as alterações? (S/N) ");
     char resposta = getchar(); getchar();

@@ -246,7 +246,7 @@ void mostrarAlteracaoEstado() {
     printf("| Id: %d\n", e->idEstado);
     printf("| Nome: %s\n", e->nomeEstado);
     printf("| UF: %s\n", e->uf);
-    printf("| isPais: %d\n", e->idPais);
+    printf("| idPais: %d\n", e->idPais);
     printf("|-------------------------------------------------------------------------------------------------------------------|\n");
 
     printf("Digite o novo nome do estado: ");

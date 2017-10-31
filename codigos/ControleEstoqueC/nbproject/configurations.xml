@@ -9,6 +9,7 @@
       <itemPath>diretivas_conexao.h</itemPath>
       <itemPath>gerais.h</itemPath>
       <itemPath>paises.h</itemPath>
+      <itemPath>produtos.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
@@ -74,6 +75,8 @@
       </item>
       <item path="produtos.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="produtos.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -117,6 +120,8 @@
       <item path="paises.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="produtos.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="produtos.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

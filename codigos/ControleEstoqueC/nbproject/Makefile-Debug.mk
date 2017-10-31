@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/cidade.o \
 	${OBJECTDIR}/clientes.o \
 	${OBJECTDIR}/estados.o \
+	${OBJECTDIR}/fornecedores.o \
 	${OBJECTDIR}/gerais.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/paises.o \
@@ -82,6 +83,11 @@ ${OBJECTDIR}/estados.o: estados.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/estados.o estados.c
+
+${OBJECTDIR}/fornecedores.o: fornecedores.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fornecedores.o fornecedores.c
 
 ${OBJECTDIR}/gerais.o: gerais.c
 	${MKDIR} -p ${OBJECTDIR}

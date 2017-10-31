@@ -8,6 +8,7 @@
       <itemPath>clientes.h</itemPath>
       <itemPath>diretivas_conexao.h</itemPath>
       <itemPath>estados.h</itemPath>
+      <itemPath>fornecedores.h</itemPath>
       <itemPath>gerais.h</itemPath>
       <itemPath>paises.h</itemPath>
       <itemPath>produtos.h</itemPath>
@@ -18,6 +19,7 @@
       <itemPath>cidade.c</itemPath>
       <itemPath>clientes.c</itemPath>
       <itemPath>estados.c</itemPath>
+      <itemPath>fornecedores.c</itemPath>
       <itemPath>gerais.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>paises.c</itemPath>
@@ -69,6 +71,10 @@
       </item>
       <item path="estados.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="fornecedores.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="fornecedores.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="gerais.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="gerais.h" ex="false" tool="3" flavor2="0">
@@ -118,6 +124,10 @@
       <item path="estados.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="estados.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="fornecedores.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="fornecedores.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="gerais.c" ex="false" tool="0" flavor2="0">
       </item>

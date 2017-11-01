@@ -1,29 +1,57 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   funcionarios.h
- * Author: aluno
- *
- * Created on 30 de Outubro de 2017, 22:11
- */
-
 #ifndef FUNCIONARIOS_H
 #define FUNCIONARIOS_H
 
-#ifdef __cplusplus
-extern "C" {
+#include <stdio.h>
+#include <string.h>
+#include <mysql/mysql.h>
+#include "diretivas_conexao.h"
+#include "gerais.h"
+
+typedef struct {
+    int id;
+    char nome [100];
+    char sexo [5];
+    char datanasci [10];
+    char endereco[100];
+    char cidade[100];
+    char profissao[100];
+    int cep;
+    int telefone; 
+    int cpf;
+    int rg;
+    int pispasep;
+} Funcionarios;
+
+
+/**
+ * Lista todos os funcinarios cadastrados no banco de dados
+ */
+void mostrarListagemFuncionarios();//OK
+
+/**
+ * Apresenta o cadastro de funcionario
+ */
+void mostrarCadastroFuncionario();//OK
+		
+/**
+ * Função para inserção de um funcionario no banco de dados
+ */
+void inserirFuncionario(Funcionarios f);//OK
+
+/**
+ * Edita funcionario cadastrados no banco de dados
+ */
+void alterarfuncionario(Funcionarios f);
+
+ /**
+ * Exclui funcionario cadastrado no banco de dados
+ */
+void ExclusaoFuncionario(int codigo);
+
+Funcionarios* selecionarFuncionario(int codigo);
+        
+void mostrarAlteracaoFuncionario();
+
+void mostrarExclusaoFuncionario();
+
 #endif
-
-
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* FUNCIONARIOS_H */
-

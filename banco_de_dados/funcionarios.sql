@@ -2,7 +2,7 @@ create database if not exists controleestoque;
 
 use controleestoque;
 --teste
-create table paises (
+create table funcionarios (
 	idFuncionario int auto_increment primary key,
 	NomeFuncionario varchar(100) not null,
 	SexoFuncionario varchar (2) not null,

@@ -1,9 +1,9 @@
 create database if not exists controleestoque;
 
 use controleestoque;
---teste
+
 create table funcionarios (
-	idFuncionario int auto_increment primary key,
+	idFuncionario int auto_increment primary key not null,
 	NomeFuncionario varchar(100) not null,
 	SexoFuncionario varchar (2) not null,
 	DataNascimentoFuncionario date not null,

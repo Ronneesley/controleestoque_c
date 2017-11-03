@@ -1,3 +1,16 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   funcionarios.h
+ * Author: brunoqualhato
+ *
+ * Created on 2 de Novembro de 2017, 21:11
+ */
+
 #ifndef FUNCIONARIOS_H
 #define FUNCIONARIOS_H
 
@@ -8,18 +21,19 @@
 #include "gerais.h"
 
 typedef struct {
-    int id;
-    char nome [100];
-    char sexo [5];
-    char datanasci [10];
-    char endereco[100];
-    char cidade[100];
+    int  id;
+    char nome[100];
+    char sexo[3];
+    char datanascimento[20];
+    char endereco[200];
+    char cidade[50];
+    int  cep;
+    int  telefone;
+    int  cpf;
+    int  rg;
     char profissao[100];
-    int cep;
-    int telefone; 
-    int cpf;
-    int rg;
-    int pispasep;
+    int  pispasep;
+    char dataCadastro[20];
 } Funcionarios;
 
 
@@ -41,7 +55,7 @@ void inserirFuncionario(Funcionarios f);//OK
 /**
  * Edita funcionario cadastrados no banco de dados
  */
-void alterarfuncionario(Funcionarios f);
+void alterarFuncionario(Funcionarios f);
 
  /**
  * Exclui funcionario cadastrado no banco de dados
@@ -54,4 +68,5 @@ void mostrarAlteracaoFuncionario();
 
 void mostrarExclusaoFuncionario();
 
-#endif
+
+#endif /* FUNCIONARIOS_H */

@@ -36,7 +36,7 @@ void mostrarMenuPrincipal(){
             case 1: mostrarListagemPaises(); break;
             case 2: mostrarListagemEstados(); break;
             case 4: mostrarCadastroClientes(); break;
-            //case 8: mostrarListagemFuncionarios(); break; //erro "referência indefinida para `mostrarListagemFuncionarios'"
+            case 8: mostrarListagemFuncionarios(); break;
             case 9: 
                 printf("Até a próxima vez!\n");
                 break;

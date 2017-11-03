@@ -257,7 +257,7 @@ void ExclusaoFuncionario(int codigo) {
 
             printf("Funcionario excluído com sucesso\n"); //Exibe mensagem de sucesso
         } else {
-            pgrintf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
         }
     } else {
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 

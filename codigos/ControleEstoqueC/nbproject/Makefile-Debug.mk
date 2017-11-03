@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/clientes.o \
 	${OBJECTDIR}/estados.o \
 	${OBJECTDIR}/fornecedores.o \
+	${OBJECTDIR}/funcionarios.o \
 	${OBJECTDIR}/gerais.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/paises.o \
@@ -88,6 +89,11 @@ ${OBJECTDIR}/fornecedores.o: fornecedores.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fornecedores.o fornecedores.c
+
+${OBJECTDIR}/funcionarios.o: funcionarios.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/funcionarios.o funcionarios.c
 
 ${OBJECTDIR}/gerais.o: gerais.c
 	${MKDIR} -p ${OBJECTDIR}

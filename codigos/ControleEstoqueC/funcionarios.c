@@ -49,7 +49,7 @@ void mostrarListagemFuncionarios() {
 
 
                     //Imprime cada linha
-                    printf("|  %-2d  | %-6s |  %-2s  |    %-8s      |  %-6s  |  %-2s |%-2d | %-2d  | %-2d  | %d| %7s |     %d     |\n",
+                    printf("|  %d  | %s |  %s  |    %-8s      |  %s  |  %s |%d | %d  | %d  | %d| %s |     %d     |\n",
                             id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
 
                 }
@@ -198,8 +198,8 @@ void alterarFuncionario(Funcionarios f) {
         //Cria o comando SQL para envio
         char sql[500];
         snprintf(sql, 500, "update funcionarios set pisPasepFuncionario = '%d',profissaoFuncionario = '%s',rgFuncionario = '%d',cpfFuncionario = '%d',telefoneFuncionario = '%d',cepFuncionario = '%d',cidadeFuncionario = '%s',EnderecoFuncionario = '%s',DataNascimentoFuncionario = '%s', SexoFuncionario = '%s', NomeFuncionario = '%s' where idFuncionario = %d",
-                                                   f.pispasep,                f.profissao,                 f.rg,               f.cpf,                     f.telefone,                 f.cep ,              f.cidade,                f.endereco,                f.datanascimento,                  f.sexo,                f.nome,                           f.id);
-          
+                f.pispasep, f.profissao, f.rg, f.cpf, f.telefone, f.cep, f.cidade, f.endereco, f.datanascimento, f.sexo, f.nome, f.id);
+
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0) {
             mysql_close(&mysql); //Encerra a conexão
@@ -314,6 +314,7 @@ Funcionarios* selecionarFuncionario(int codigo) {
 
 void mostrarAlteracaoFuncionario() {
     int codigo;
+    int opcao;
     printf("Digite o código do Funcionarios que deseja alterar: ");
     scanf("%d", &codigo);
     getchar();
@@ -338,44 +339,125 @@ void mostrarAlteracaoFuncionario() {
     printf("| Profissão:  %s\n", f->profissao);
     printf("| PisPasep:  %d\n", f->pispasep);
 
+    limparTela();
+    printf("1) Para alterar o nome do funcionario\n");
+    printf("2) Para alterar o Sexo do funcionario\n");
+    printf("3) Para alterar a Data de Nascimento do funcionario\n");
+    printf("4) Para alterar o Endereço do funcionario\n");
+    printf("5) Para alterar a Cidade do funcionario\n");
+    printf("6) Para alterar o Cep do funcionario\n");
+    printf("7) Para alterar o Telefone do funcionario\n");
+    printf("8) Para alterar o CPF do funcionario\n");
+    printf("9) Para alterar o RG do funcionario\n");
+    printf("10) Para alterar a Profissão do funcionario\n");
+    printf("11) Para alterar o PisPasep do funcionario\n");
+    scanf("%d", &opcao);
+    getchar();
 
-    printf("|--------------------------------------------------------------------|\n");
+    switch (opcao) {
+        case 1:
+            printf("|--------------------------------------------------------------------|\n");
+            printf("Digite o novo nome do Funcionario: ");
+            char nome[100];
+            fgets(nome, sizeof (nome), stdin);
+            int tamanho = strlen(nome);
+            nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+            strncpy(f->nome, nome, 100);
+            printf("|--------------------------------------------------------------------|\n");
+            break;
+
+        case 2:
+            printf("Digite o novo sexo do Funcionario: ");
+            char sexo[100];
+            fgets(sexo, sizeof (sexo), stdin);
+            tamanho = strlen(sexo);
+            sexo[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+            strncpy(f->sexo, sexo, 100);
+            printf("|--------------------------------------------------------------------|\n");
+
+            break;
+
+        case 3:
+
+            printf("Digite a nova Data de Nascimento do Funcionario: ");
+            char datanascimento[100];
+            fgets(datanascimento, sizeof (datanascimento), stdin);
+            tamanho = strlen(datanascimento);
+            datanascimento[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+            strncpy(f->datanascimento, datanascimento, 100);
+            printf("|--------------------------------------------------------------------|\n");
+            break;
+        case 4:
+            printf("Digite novo Endereço do Funcionario: ");
+            char endereco[100];
+            fgets(endereco, sizeof (endereco), stdin);
+            tamanho = strlen(endereco);
+            endereco[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+            strncpy(f->endereco, endereco, 100);
+            printf("|--------------------------------------------------------------------|\n");
+            break;
+        case 5:
+            printf("Digite a nova Cidade do Funcionario: ");
+            char cidade[100];
+            fgets(cidade, sizeof (cidade), stdin);
+            tamanho = strlen(cidade);
+            cidade[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+            strncpy(f->cidade, cidade, 100);
+            printf("|--------------------------------------------------------------------|\n");
+            break;
+        case 6:
+            printf("| Digite o novo CEP:  ");
+            scanf("%d", &f->cep);
+            getchar();
+            printf("|--------------------------------------------------------------------|\n");
+
+            break;
+        case 7:
+            printf("| Digite o novo Telefone:  ");
+            scanf("%d", &f->telefone);
+            getchar();
+            printf("|--------------------------------------------------------------------|\n");
+
+            break;
+        case 8:
+            printf("| Digite o novo CPF:  ");
+            scanf("%d", &f->cpf);
+            getchar();
+            printf("|--------------------------------------------------------------------|\n");
+
+            break;
+        case 9:
+
+            printf("| Digite o novo RG:  ");
+            scanf("%d", &f->rg);
+            getchar();
+            printf("|--------------------------------------------------------------------|\n");
 
 
 
-    printf("Digite o novo nome do Funcionario: ");
-    char nome[100];
-    fgets(nome, sizeof (nome), stdin);
-    int tamanho = strlen(nome);
-    nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->nome, nome, 100);
-    printf("|--------------------------------------------------------------------|\n");
+            break;
+        case 10:
 
 
+            printf("Digite a nova Profissão do Funcionario: ");
+            char profissao[100];
+            fgets(profissao, sizeof (profissao), stdin);
+            tamanho = strlen(profissao);
+            profissao[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+            strncpy(f->profissao, profissao, 100);
+            printf("|--------------------------------------------------------------------|\n");
 
-    printf("Digite o novo sexo do Funcionario: ");
-    char sexo[100];
-    fgets(sexo, sizeof (sexo), stdin);
-    tamanho = strlen(sexo);
-    sexo[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->sexo, sexo, 100);
-    printf("|--------------------------------------------------------------------|\n");
+            break;
+        case 11:
 
+            printf("| Digite o novo PisPasep:  ");
+            scanf("%d", &f->pispasep);
+            getchar();
+            printf("|--------------------------------------------------------------------|\n");
 
+            break;
 
-
-    printf("Digite a nova Data de Nascimento do Funcionario: ");
-    char datanascimento[100];
-    fgets(datanascimento, sizeof (datanascimento), stdin);
-    tamanho = strlen(datanascimento);
-    datanascimento[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->datanascimento, datanascimento, 100);
-    printf("|--------------------------------------------------------------------|\n");
-
-
-    //Falta alterar numeros inteiros
-    printf("|--------------------------------------------------------------------|\n");
-
+    }
 
     printf("Deseja realmente salvar as alterações? (S/N) ");
     char resposta = getchar();

@@ -16,6 +16,8 @@ typedef struct {
 
 void mostrarListagemEstados();
 
+void mostrarListagemPaises_Cadastro();
+
 void mostrarCadastroEstado();
 
 void inserirEstado(Estado e);

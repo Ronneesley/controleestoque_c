@@ -7,8 +7,8 @@
  */
 
 void mostrarListagemEstados() {
-
     int opcao;
+    
     do {
         limparTela();
 
@@ -51,7 +51,8 @@ void mostrarListagemEstados() {
         printf("1) Cadastrar um novo Estado\n");
         printf("2) Alterar um Estado\n");
         printf("3) Excluir um Estado\n");
-        printf("4) Voltar ao menu principal\n\n");
+        printf("4) Listar Países\n");
+        printf("5) Voltar ao menu principal\n\n");
 
         printf("Digite a opção desejada: ");
         scanf("%d", &opcao);
@@ -67,15 +68,63 @@ void mostrarListagemEstados() {
             case 3: 
                 mostrarExclusaoEstado();
                 break;
+            case 4:
+                mostrarListagemPaises_Cadastro();
+                break;
+        }
+    } while (opcao != 5);
+}
+
+void mostrarListagemPaises_Cadastro(){    
+        limparTela();
+        printf("|--------------------------------------------------------------------|\n");
+        printf("| LISTAGEM DE PAÍSES                                                 |\n");
+        printf("|--------------------------------------------------------------------|\n");
+        printf("| ID         | NOME                                                  |\n");
+        printf("|--------------------------------------------------------------------|\n");
+
+        //Cria a variável de conexão com o MySQL
+        MYSQL mysql;
+        mysql_init(&mysql);
+
+        //Efetua a conexão
+        if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+            //Executa o comando de consulta
+            if (mysql_query(&mysql, "select id, nome from paises order by nome") == 0){
+                //Obtém o resultado
+                MYSQL_RES *resultado = mysql_store_result(&mysql);
+
+                //Cria uma variável para guardar a linha
+                MYSQL_ROW linha;
+                while ( (linha = mysql_fetch_row(resultado)) ){
+                    //Obtém cada coluna na órdem
+                    int id = atoi(linha[0]);
+                    char *nome = linha[1];
+
+                    //Imprime cada linha
+                    printf("| %10d | %-53s |\n", id, nome);
+                }
+
+                //Libera os resultado e fecha a conexão
+                mysql_free_result(resultado);
+                mysql_close(&mysql);
+            } else {
+                printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+            }
+        } else {
+            printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
         }
 
-    } while (opcao != 4);
+        printf("|--------------------------------------------------------------------|\n");
+        printf("Pressione qualquer tecla para retornar ao menu \n");
+        getchar();  
 }
+
 
 void mostrarCadastroEstado() {
     Estado e;
-    limparTela();
     
+    limparTela();    
     printf("|-------------------------------------------------------------------------------------------------------------------|\n");
     printf("| CADASTRO DE ESTADOS                                                                                               |\n");
     printf("|-------------------------------------------------------------------------------------------------------------------|\n");
@@ -89,7 +138,7 @@ void mostrarCadastroEstado() {
     fgets(e.uf, sizeof (e.uf), stdin);
     int tamanhoUf = strlen(e.uf);
     e.uf[tamanhoUf ] = '\0'; //Retira o \n do final da string e coloca \0
-
+    
     printf("| ID PAÍS: ");
     scanf("%d", &e.idPais);
     getchar();
@@ -102,7 +151,6 @@ void mostrarCadastroEstado() {
     if (resposta == 'S' || resposta == 's') {
         inserirEstado(e);
     }
-
 }
 
 void inserirEstado(Estado e) {
@@ -257,11 +305,11 @@ void mostrarAlteracaoEstado() {
     strncpy(e->nomeEstado, nomeEstado, 100);
 
     printf("Digite o novo uf do estado: ");
-    char uf[100];
+    char uf[3];
     fgets(uf, sizeof (uf), stdin);
     int tamanhoUf = strlen(uf);
     uf[tamanhoUf - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(e->uf, uf, 100);
+    strncpy(e->uf, uf, 3);
 
     printf("Digite o novo id do Pais: ");
     scanf("%d", &e->idPais);
@@ -275,7 +323,7 @@ void mostrarAlteracaoEstado() {
     if (resposta == 'S' || resposta == 's') {
         alterarEstado(*e);
     }
-
+    
     getchar();
 }
 

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   fornecedores.h
  * Author: welliton
@@ -14,16 +8,29 @@
 #ifndef FORNECEDORES_H
 #define FORNECEDORES_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <stdio.h>
+#include <string.h>
+#include <mysql/mysql.h>
+#include "diretivas_conexao.h"
+#include "gerais.h"
+
+// Estrutura Fornecedores
+
+typedef struct {
+    int id;
+    char nome[100];
+    int CNPJ;
+} Fornecedores;
+
+// Menu Principal do Cadastro de  Fornecedores
+
+void MenuFornecedores();
+
+// Lista todos os Fornecedores cadastrados no banco de dados
+
+void ConsultaFornecedores();
 
 
-
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* FORNECEDORES_H */
 

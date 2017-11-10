@@ -1,7 +1,7 @@
 #include"fornecedores.h"
 
 
-// Menu Principal do Cadastro de Fornecedores
+// Menu Principal do Cadastro de Fornecedores.
 void MenuFornecedores(){
     
     int opcao;

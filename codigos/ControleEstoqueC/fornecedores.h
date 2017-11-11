@@ -15,7 +15,6 @@
 #include "gerais.h"
 
 // Estrutura Fornecedores
-
 typedef struct {
     int id;
     char nome[100];
@@ -23,12 +22,16 @@ typedef struct {
 } Fornecedores;
 
 // Menu Principal do Cadastro de  Fornecedores
-
 void MenuFornecedores();
 
-// Lista todos os Fornecedores cadastrados no banco de dados
-
+// Acessa o sub Menu de consultas
 void ConsultaFornecedores();
+
+// Consulta os Fornecedores por ordem de nome
+void consultaNome();
+
+// consulta os Fornecedores por ordem de ID
+void consultaId();
 
 
 

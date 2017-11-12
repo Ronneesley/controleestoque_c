@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <mysql/mysql.h>
 #include "diretivas_conexao.h"
 #include "gerais.h"
 

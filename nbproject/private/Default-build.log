@@ -1,0 +1,7 @@
+gcc -c src/main.c -o build/main.o
+In file included from src/main.c:2:0:
+src/paises.h:6:25: fatal error: mysql/mysql.h: No such file or directory
+ #include <mysql/mysql.h>
+                         ^
+compilation terminated.
+make: *** [Makefile:7: main.o] Error 1

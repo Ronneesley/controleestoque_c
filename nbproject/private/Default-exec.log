@@ -1,0 +1,8 @@
+called: C:\cygwin64\bin\gcc.exe
+	C:\Sistemas de Informação\4º Período\Monitoria\controleestoque_c
+	C:\cygwin64\bin\gcc.exe
+	-c
+	src/main.c
+	-o
+	build/main.o
+

@@ -33,6 +33,9 @@ void consultaNome();
 // consulta os Fornecedores por ordem de ID
 void consultaId();
 
+// Mostra o menu de opções de exclusão
+void MenuExclusao();
+
 
 
 #endif /* FORNECEDORES_H */

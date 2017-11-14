@@ -29,6 +29,7 @@ void MenuFornecedores(){
 
         switch (opcao){
             case 1: ConsultaFornecedores(); break;
+            case 4: MenuExclusao(); break;
                        
         }
     } while (opcao != 5);
@@ -37,7 +38,7 @@ void MenuFornecedores(){
     }
 
 // Sub Menu para consultar os Fornecedores
-void ConsultaFornecedores(){
+void ConsultaFornecedores(){    
     
     int opcao2;
     
@@ -87,6 +88,7 @@ void consultaNome(){
             //Obtém o resultado
             MYSQL_RES *resultado = mysql_store_result(&mysql);
 
+            
             //Cria uma variável para guardar a linha
             MYSQL_ROW linha;
             while ( (linha = mysql_fetch_row(resultado)) ){
@@ -166,5 +168,17 @@ void consultaId(){
     getchar();
 
 
+}
+
+// Mostra o menu de opções de exclusão
+
+void MenuExclusao(){
+    int codigo;
+    printf("Digite o código do país que deseja excluir: ");
+    scanf("%d", &codigo);
+    getchar();
+
+    excluirPais(codigo);
+    getchar();
 }
 

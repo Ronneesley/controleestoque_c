@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "cidade.h"
 #include "paises.h"
 #include "estados.h"
 #include "clientes.h"
@@ -36,6 +37,7 @@ void mostrarMenuPrincipal(){
         switch (opcao){
             case 1: mostrarListagemPaises(); break;
             case 2: mostrarListagemEstados(); break;
+            case 3: mostrarListagemCidades(); break;
             case 4: mostrarCadastroClientes(); break;
             case 6: MenuFornecedores(); break;
             case 8: mostrarListagemFuncionarios(); break;
@@ -45,7 +47,7 @@ void mostrarMenuPrincipal(){
             default:
                 printf("Opção inválida!\n");
         }
-    } while (opcao != 9);
+    } while (opcao != 3);
 }
 
 /**

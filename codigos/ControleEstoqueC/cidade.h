@@ -13,17 +13,20 @@
 
 #ifndef CIDADE_H
 #define CIDADE_H
+#include "diretivas_conexao.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+typedef struct {
+    int id;
+    int idEstado;
+    char uf[3];
+    char nome[101];
+}cidade;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-
-
-#ifdef __cplusplus
-}
-#endif
+void mostrarListagemCidades();
+void mostrarCadastroCidade();
+void inserirCidade(cidade);
 
 #endif /* CIDADE_H */
 

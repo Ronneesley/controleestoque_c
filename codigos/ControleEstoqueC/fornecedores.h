@@ -51,6 +51,10 @@ void CadastrarFornecedor();
 // Função para inserir o nome dos Fornecedores
 void inserirFornecedores(Fornecedores f);
 
+void AlterarFornecedores(Fornecedores f);
+Fornecedores* SelecionarFornecedores(int codigo);
+
+void MostrarAlteracaoFornecedores();
 
 #endif /* FORNECEDORES_H */
 

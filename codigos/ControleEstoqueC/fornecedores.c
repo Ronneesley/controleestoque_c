@@ -30,6 +30,7 @@ void MenuFornecedores(){
         switch (opcao){
             case 1: ConsultaFornecedores(); break;
             case 2: CadastrarFornecedor(); break;
+            case 3: MostrarAlteracaoFornecedores(); break;
             case 4: MenuExclusao(); break;
                        
         }
@@ -336,6 +337,113 @@ void inserirFornecedores(Fornecedores f){
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
         
     }
+    getchar();
+}
+
+void AlterarFornecedores(Fornecedores f){
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "update fornecedores set nomeFornecedor = '%s' where id = %d", f.nomeFornecedor, f.id);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0){
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("Fornecedor alterado com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+    getchar();
+}
+
+Fornecedores* SelecionarFornecedores(int codigo){
+    //Cria a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Efetua a conexão
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        char sql[500];
+        snprintf(sql, 500, "select idFornecedor, nomeFornecedor from fornecedores where id = %d", codigo);
+
+        //Executa o comando de consulta
+        if (mysql_query(&mysql, sql) == 0){
+            //Obtém o resultado
+            MYSQL_RES *resultado = mysql_store_result(&mysql);
+
+            //Cria uma variável para guardar a linha
+            
+            MYSQL_ROW linha;
+            int id; 
+            char *nome;
+            if ( (linha = mysql_fetch_row(resultado)) ){
+                //Obtém cada coluna na órdem
+                id = atoi(linha[0]);
+
+                //Libera os resultado e fecha a conexão
+                mysql_free_result(resultado);
+                mysql_close(&mysql);
+
+                Fornecedores fornecedor;
+                Fornecedores *f = &fornecedor;
+                strncpy(f->nomeFornecedor, linha[1], 100);
+                f->id = id;
+
+                //Imprime cada linha
+                return f;
+            } else {
+                //Libera os resultado e fecha a conexão
+                mysql_free_result(resultado);
+                mysql_close(&mysql);
+
+                return NULL;
+            }
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+}
+
+void MostrarAlteracaoFornecedores(){
+    int codigo;
+    printf("Digite o código do Fornecedor que deseja alterar: ");
+    scanf("%d", &codigo); getchar();
+
+    Fornecedores *f = SelecionarFornecedores(codigo);
+
+    limparTela();
+    BordaPadrao();
+    printf("| CADASTRO DE FORNECEDORES                                             |\n");
+    BordaPadrao();
+    printf("| Id: %d\n", f->id);
+    printf("| Nome: %s\n", f->nomeFornecedor);
+    BordaPadrao();
+
+    printf("Digite o novo nome do fornecedor: ");
+    char nome[100];
+    fgets(nome, sizeof(nome), stdin);
+    int tamanho = strlen(nome); nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+    strncpy(f->nomeFornecedor, nome, 100);
+    BordaPadrao();
+
+    printf("Deseja realmente salvar as alterações? (S/N) ");
+    char resposta = getchar(); getchar();
+
+    if (resposta == 'S' || resposta == 's'){
+        AlterarFornecedores(*f);
+    }
+
     getchar();
 }
     

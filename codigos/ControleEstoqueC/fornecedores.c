@@ -71,7 +71,7 @@ void consultaNome(){
     
     limparTela();
     BordaPadrao();
-    printf("||\t\tCONSULTA FORNECEDORES POR ORDEM DE NOME\t\t\t||\n");
+    printf("||\t\tCONSULTA FORNECEDORES POR ORDEM DE NOME\t\t      ||\n");
     BordaPadrao();
     BordaPadrao();
 
@@ -173,12 +173,120 @@ void consultaId(){
 // Mostra o menu de opções de exclusão
 
 void MenuExclusao(){
-    int codigo;
-    printf("Digite o código do país que deseja excluir: ");
-    scanf("%d", &codigo);
-    getchar();
-
-    excluirPais(codigo);
-    getchar();
+    
+     int opcao2;
+    
+    do{
+        limparTela();
+        BordaPadrao();
+        printf("||\t\t\tMENU EXCLUSÃO\t\t\t\t      ||\n");
+        BordaPadrao(); 
+        printf("\n");
+        printf("1) Consultar Fornecedores\n");
+        printf("2) Excluir Fornecedores\n");
+        printf("3) Para Voltar ao Menu Anterior");
+        printf("\n\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao2); getchar();
+        
+        switch (opcao2){
+            case 1: ConsultaExclusao(); break;
+            case 2: ExcluirFornecedor();break;          
+        }
+            
+    }while (opcao2 !=3);
+    
 }
+    
+    
+    
+    void ConsultaExclusao(){
+    
+            limparTela();
+            BordaPadrao();
+            printf("||\t\tCONSULTA FORNECEDORES\t\t\t\t      ||\n");
+            BordaPadrao();
+            BordaPadrao();
+
+            //Cria a variável de conexão com o MySQL
+            MYSQL mysql;
+            mysql_init(&mysql);
+
+            //Efetua a conexão
+            if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+
+                //Executa o comando de consulta
+                if (mysql_query(&mysql, "select idFornecedor, nomeFornecedor from fornecedores order by idFornecedor") == 0){
+
+                    //Obtém o resultado
+                    MYSQL_RES *resultado = mysql_store_result(&mysql);
+
+                    //Cria uma variável para guardar a linha
+                    MYSQL_ROW linha;
+                    while ( (linha = mysql_fetch_row(resultado)) ){
+
+                        //Obtém cada coluna na órdem
+                        int id = atoi(linha[0]);
+                        char *nome = linha[1];
+
+                        //Imprime cada linha
+                        printf("|| %10d | %-53s ||\n", id, nome);
+                    }
+
+                    //Libera os resultado e fecha a conexão
+                    mysql_free_result(resultado);
+                    mysql_close(&mysql);
+                } else {
+                    printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+                }
+            } else {
+                printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+            }
+
+            BordaPadrao();
+            printf("\n");
+            printf("Pressione <ENTER> para voltar ao Menu Anterior:");
+            getchar();   
+    }
+    
+    void ExcluirFornecedor(){
+        
+        int codigo;
+        printf("Digite o código do Fornecedor que deseja excluir: ");
+        scanf("%d", &codigo);
+        getchar();
+
+        DeletarFornecedor(codigo);
+        getchar();    
+      
+    }
+    
+    void DeletarFornecedor(int codigo){
+        
+        //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "delete from fornecedores where idFornecedor = %d", codigo);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0){
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("Fornecedores excluído com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+    
+      
+}
+    
+
 

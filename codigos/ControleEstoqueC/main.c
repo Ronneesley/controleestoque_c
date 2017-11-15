@@ -47,7 +47,7 @@ void mostrarMenuPrincipal(){
             default:
                 printf("Opção inválida!\n");
         }
-    } while (opcao != 3);
+    } while (opcao != 9);
 }
 
 /**

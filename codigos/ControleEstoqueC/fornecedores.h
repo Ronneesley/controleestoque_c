@@ -36,6 +36,14 @@ void consultaId();
 // Mostra o menu de opções de exclusão
 void MenuExclusao();
 
+// Consulta Fornecedores dentro da função Excluir Fornecedores
+void ConsultaExclusao();
+
+// Função para Excluir os Fornecedores
+void ExcluirFornecedor();
+
+// Função que excluir o Fornecedor do Banco de Dados
+void DeletarFornecedor(int codigo);
 
 
 #endif /* FORNECEDORES_H */

@@ -327,13 +327,16 @@ void inserirFornecedores(Fornecedores f){
         if (mysql_query(&mysql, sql) == 0){
             mysql_close(&mysql); //Encerra a conexão
 
-            printf("Fornecedor cadastrado com sucesso\n"); //Exibe mensagem de sucesso
+            printf("Fornecedor cadastrado com sucesso\n\n"); //Exibe mensagem de sucesso
+            printf("Pressione a tecla <ENTER> para continuar");
         } else {
             printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
         }
     } else {
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+        
     }
+    getchar();
 }
     
 

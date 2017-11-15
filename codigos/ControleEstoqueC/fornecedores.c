@@ -19,7 +19,7 @@ void MenuFornecedores(){
         BordaPadrao();
         printf("\n");
         printf("1) Consultar Fornecedores\n");
-        printf("2) Cadastrar um Novo Fornecedor\n");
+        printf("2) Cadastrar um Fornecedor\n");
         printf("3) Alterar um Fornecedor\n");
         printf("4) Excluir um Fornecedor\n");
         printf("5) Voltar ao menu principal\n\n");
@@ -29,6 +29,7 @@ void MenuFornecedores(){
 
         switch (opcao){
             case 1: ConsultaFornecedores(); break;
+            case 2: CadastrarFornecedor(); break;
             case 4: MenuExclusao(); break;
                        
         }
@@ -277,7 +278,8 @@ void MenuExclusao(){
         if (mysql_query(&mysql, sql) == 0){
             mysql_close(&mysql); //Encerra a conexão
 
-            printf("Fornecedores excluído com sucesso\n"); //Exibe mensagem de sucesso
+            printf("Fornecedor excluído com sucesso\n\n"); //Exibe mensagem de sucesso
+            printf("Pressione a Tecla <ENTER> para continuar");
         } else {
             printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
         }
@@ -286,6 +288,52 @@ void MenuExclusao(){
     }
     
       
+}
+    
+    
+void CadastrarFornecedor() {
+    Fornecedores f;
+
+    limparTela();
+    BordaPadrao();
+    printf("| CADASTRO DE FORNECEDORES                                            |\n");
+    BordaPadrao();
+
+    printf("NOME FORNECEDORES: ");
+    fgets(f.nomeFornecedor, sizeof(f.nomeFornecedor), stdin);
+    int tamanho = strlen(f.nomeFornecedor); f.nomeFornecedor[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
+    BordaPadrao();
+
+    printf("Deseja realmente cadastrar o fornecedor? (S/N) ");
+    char resposta = getchar(); getchar();
+
+    if (resposta == 'S' || resposta == 's'){
+        inserirFornecedores(f);
+    }
+}
+
+void inserirFornecedores(Fornecedores f){
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "insert into fornecedores(nomeFornecedor) values('%s')", f.nomeFornecedor);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0){
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("Fornecedor cadastrado com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
 }
     
 

@@ -17,7 +17,7 @@
 // Estrutura Fornecedores
 typedef struct {
     int id;
-    char nome[100];
+    char nomeFornecedor[100];
     int CNPJ;
 } Fornecedores;
 
@@ -44,6 +44,12 @@ void ExcluirFornecedor();
 
 // Função que excluir o Fornecedor do Banco de Dados
 void DeletarFornecedor(int codigo);
+
+// Função para cadastrar os Fornecedores
+void CadastrarFornecedor();
+
+// Função para inserir o nome dos Fornecedores
+void inserirFornecedores(Fornecedores f);
 
 
 #endif /* FORNECEDORES_H */

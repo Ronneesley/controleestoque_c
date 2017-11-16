@@ -217,6 +217,7 @@ Pais* selecionarPais(int codigo){
     } else {
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
     }
+    getchar();
 }
 
 void mostrarAlteracaoPais(){

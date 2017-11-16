@@ -1,6 +1,6 @@
 /** 
  * File:   fornecedores.h
- * Author: welliton
+ * Author: Andreia, Ana Paula, Láila e Welliton
  *
  * Created on 31 de Outubro de 2017, 12:17
  */
@@ -25,19 +25,19 @@ typedef struct {
 void MenuFornecedores();
 
 // Acessa o sub Menu de consultas
-void ConsultaFornecedores();
+void ConsultarFornecedores();
 
 // Consulta os Fornecedores por ordem de nome
-void consultaNome();
+void consultarNome();
 
 // consulta os Fornecedores por ordem de ID
-void consultaId();
+void consultarId();
 
-// Mostra o menu de opções de exclusão
+// Mostra Sub Menu da opção de exclusão
 void MenuExclusao();
 
-// Consulta Fornecedores dentro da função Excluir Fornecedores
-void ConsultaExclusao();
+// Consulta Fornecedores dentro da Função Excluir Fornecedores
+void ConsultarExclusao();
 
 // Função para Excluir os Fornecedores
 void ExcluirFornecedor();
@@ -48,13 +48,19 @@ void DeletarFornecedor(int codigo);
 // Função para cadastrar os Fornecedores
 void CadastrarFornecedor();
 
-// Função para inserir o nome dos Fornecedores
+// Função para inserir um  Fornecedor no Banco de Dados
 void inserirFornecedores(Fornecedores f);
 
+// Função para Alterar um Fornecedor
+void MostrarAlteracaoFornecedores();
+
+// Função para alterar os dados do Fornecedor no Banco de Dados.
 void AlterarFornecedores(Fornecedores f);
+
+// Mostra as informações do fornecedor a ser alterado antes de executar a alteração
 Fornecedores* SelecionarFornecedores(int codigo);
 
-void MostrarAlteracaoFornecedores();
+
 
 #endif /* FORNECEDORES_H */
 

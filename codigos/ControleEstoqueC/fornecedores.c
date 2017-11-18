@@ -106,10 +106,10 @@ void consultarNome(){
                 //Obtém cada coluna na órdem
                 int id = atoi(linha[0]);
                 char *nome = linha[1];
-                int cnpj = atoi(linha[2]);
+                ulong cnpj = atoll(linha[2]);
 
                 //Imprime cada linha
-                printf("|| %5d | %-25s | %-14d ||\n", id, nome, cnpj);
+                printf("|| %5d | %-25s | %-14llu ||\n", id, nome, cnpj);
             }
 
             //Libera os resultado e fecha a conexão
@@ -159,10 +159,10 @@ void consultarId(){
                 //Obtém cada coluna na órdem
                 int id = atoi(linha[0]);
                 char *nome = linha[1];
-                int cnpj = atoi(linha[2]);
+                ulong cnpj = atoll(linha[2]);
 
                 //Imprime cada linha
-                printf("|| %5d | %-25s | %-14d ||\n", id, nome, cnpj);
+                printf("|| %5d | %-25s | %-14llu ||\n", id, nome, cnpj);
             }
 
             //Libera os resultado e fecha a conexão
@@ -199,7 +199,7 @@ void CadastrarFornecedor() {
     
     printf("\n");
     printf("CNPJ DO FORNECEDOR: ");
-    scanf("%d", &f.CNPJ);
+    scanf("%llu", &f.CNPJ);
     getchar(); 
     BordaPadrao();
    
@@ -224,7 +224,7 @@ void inserirFornecedores(Fornecedores f){
         
         //Cria o comando SQL para envio
         char sql[500];
-        snprintf(sql, 500, "insert into fornecedores(nomeFornecedor, CNPJ) values('%s', '%d')", f.nomeFornecedor, f.CNPJ);
+        snprintf(sql, 500, "insert into fornecedores(nomeFornecedor, CNPJ) values('%s', '%llu')", f.nomeFornecedor, f.CNPJ);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0){

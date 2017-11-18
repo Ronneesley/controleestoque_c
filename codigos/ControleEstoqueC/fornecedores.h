@@ -14,11 +14,14 @@
 #include "diretivas_conexao.h"
 #include "gerais.h"
 
+// Tipo Variável para receber o campo CNPJ do Banco de Dados
+typedef unsigned long long int ulong;
+
 // Estrutura Fornecedores
 typedef struct {
     int id;
     char nomeFornecedor[100];
-    int CNPJ;
+    ulong CNPJ;
 } Fornecedores;
 
 // Menu Principal do Cadastro de  Fornecedores

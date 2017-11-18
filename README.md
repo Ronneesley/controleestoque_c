@@ -91,3 +91,5 @@ Vítor Henrique Rezende Feliciano
 Wagner Martins Rocha
 
 Welliton dos Santos Silva
+
+Renoir dos Reis

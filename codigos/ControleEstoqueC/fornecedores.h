@@ -36,11 +36,11 @@ void consultarNome();
 // consulta os Fornecedores por ordem de ID
 void consultarId();
 
-// Mostra Sub Menu da opção de exclusão
+// Mostra Sub Menu da opção de exclusão de Fornecedores
 void MenuExclusao();
 
-// Consulta Fornecedores dentro da Função Excluir Fornecedores
-void ConsultarExclusao();
+// Consulta Fornecedores dentro da Função Excluir e Alterar Fornecedores
+void ConsultarPadrao();
 
 // Função para Excluir os Fornecedores
 void ExcluirFornecedor();
@@ -54,11 +54,17 @@ void CadastrarFornecedor();
 // Função para inserir um  Fornecedor no Banco de Dados
 void inserirFornecedores(Fornecedores f);
 
+// Mostra Sub Menu da opção de Alteração de Fornecedores
+void MenuAlteracao();
+
 // Função para Alterar um Fornecedor
 void MostrarAlteracaoFornecedores();
 
-// Função para alterar os dados do Fornecedor no Banco de Dados.
-void AlterarFornecedores(Fornecedores f);
+// Função para alterar o nome do Fornecedor no Banco de Dados.
+void AlterarNomeFornecedores(Fornecedores f);
+
+// Função para alterar o Cnpj do Fornecedor no Banco de Dados.
+void AlterarCnpjFornecedores(Fornecedores f);
 
 // Mostra as informações do fornecedor a ser alterado antes de executar a alteração
 Fornecedores* SelecionarFornecedores(int codigo);

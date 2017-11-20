@@ -38,7 +38,7 @@ void MenuFornecedores(){
         switch (opcao){
             case 1: ConsultarFornecedores(); break;
             case 2: CadastrarFornecedor(); break;
-            case 3: MostrarAlteracaoFornecedores(); break;
+            case 3: MenuAlteracao(); break;
             case 4: MenuExclusao(); break;
                        
         }
@@ -243,10 +243,39 @@ void inserirFornecedores(Fornecedores f){
     getchar();
 }
 
+
+// Mostra Sub Menu da opção de Ateração
+void MenuAlteracao(){
+    
+    int opcao2;
+    
+    do{
+        limparTela();
+        BordaPadrao();
+        printf("||\t\t\tMENU ALTERAÇÃO\t\t\t\t      ||\n");
+        BordaPadrao(); 
+        printf("\n");
+        printf("1) Consultar Fornecedores\n");
+        printf("2) Alterar Fornecedor\n");
+        printf("3) Para Voltar ao Menu Anterior");
+        printf("\n\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao2); getchar();
+
+        switch (opcao2){
+            case 1: ConsultarPadrao(); break;
+            case 2: MostrarAlteracaoFornecedores();break;          
+        }
+
+    }while (opcao2 !=3);
+    
+}
+
 // Função para Alterar um Fornecedor
 void MostrarAlteracaoFornecedores(){
     
     int codigo;
+    int codigoAlterar;
     limparTela();
     BordaPadrao();
     printf("||\t\t\tALTERARAÇÃO DE FORNECEDORES\t\t      ||\n");
@@ -254,7 +283,8 @@ void MostrarAlteracaoFornecedores(){
     printf("\n");
     printf("Digite o código do Fornecedor que deseja alterar: ");
     scanf("%d", &codigo); getchar();
-
+    
+    // Consulta Apenas o Código que foi selecionado do Fornecedor
     Fornecedores *f = SelecionarFornecedores(codigo);
 
     limparTela();
@@ -263,9 +293,17 @@ void MostrarAlteracaoFornecedores(){
     BordaPadrao();
     printf("|| Id: %d\n", f->id);
     printf("|| Nome: %s\n", f->nomeFornecedor);
+    printf("|| CNPJ: %llu\n", f->CNPJ);
     BordaPadrao();
-
     printf("\n");
+    
+    // Escolha do campo a ser  alterado no cadastro de Fornecedores
+    printf("Digite: 1)Para Alterar o Nome - 2)Para Alterar o CNPJ: ");
+    scanf("%d", &codigoAlterar);getchar();
+    printf("\n");
+    
+    // Alteração do campo Nome do Cadastro de Fornecedores
+    if (codigoAlterar == 1){
     printf("Digite o novo nome do fornecedor: ");
     char nome[100];
     fgets(nome, sizeof(nome), stdin);
@@ -276,8 +314,22 @@ void MostrarAlteracaoFornecedores(){
     printf("Deseja realmente salvar as alterações? (S/N) ");
     char resposta = getchar(); getchar();
 
-    if (resposta == 'S' || resposta == 's'){
-        AlterarFornecedores(*f);
+        if (resposta == 'S' || resposta == 's'){
+            AlterarNomeFornecedores(*f);
+        }
+    }
+    
+    // Alteração do campo CNPJ do Cadastro de Fornecedores
+    if (codigoAlterar == 2){
+    printf("Digite o novo CNPJ do fornecedor: ");
+    scanf("%llu", &f->CNPJ);
+    BordaPadrao();
+    printf("Deseja realmente salvar as alterações? (S/N) ");
+    char resposta = getchar(); getchar();
+
+        if (resposta == 'S' || resposta == 's'){
+            AlterarCnpjFornecedores(*f);
+        }
     }
 
 }
@@ -293,7 +345,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
     //Efetua a conexão
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
         char sql[500];
-        snprintf(sql, 500, "select idFornecedor, nomeFornecedor from fornecedores where idFornecedor = %d", codigo);
+        snprintf(sql, 500, "select idFornecedor, nomeFornecedor, CNPJ from fornecedores where idFornecedor = %d", codigo);
 
         //Executa o comando de consulta
         if (mysql_query(&mysql, sql) == 0){
@@ -305,9 +357,14 @@ Fornecedores* SelecionarFornecedores(int codigo){
             MYSQL_ROW linha;
             int id; 
             char *nome;
+            ulong cnpj;
+            
+            
             if ( (linha = mysql_fetch_row(resultado)) ){
+                
                 //Obtém cada coluna na órdem
                 id = atoi(linha[0]);
+                cnpj = atoll(linha[2]);
 
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
@@ -316,6 +373,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
                 Fornecedores fornecedor;
                 Fornecedores *f = &fornecedor;
                 strncpy(f->nomeFornecedor, linha[1], 100);
+                f->CNPJ = cnpj;
                 f->id = id;
 
                 //Imprime cada linha
@@ -335,8 +393,8 @@ Fornecedores* SelecionarFornecedores(int codigo){
     }
 }
 
-// Função para alterar os dados do Fornecedor no Banco de Dados.
-void AlterarFornecedores(Fornecedores f){
+// Função para alterar o Nome do Fornecedor no Banco de Dados.
+void AlterarNomeFornecedores(Fornecedores f){
     
     //Inicializa a variável de conexão com o MySQL
     MYSQL mysql;
@@ -348,6 +406,36 @@ void AlterarFornecedores(Fornecedores f){
         //Cria o comando SQL para envio
         char sql[500];
         snprintf(sql, 500, "update fornecedores set nomeFornecedor = '%s' where idFornecedor = %d", f.nomeFornecedor, f.id);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0){
+            mysql_close(&mysql); //Encerra a conexão
+            
+            printf("\n");
+            printf("----- Fornecedor alterado com sucesso -----\n\n"); //Exibe mensagem de sucesso
+            printf("Pressione a tecla <ENTER> para continuar");
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+    getchar();
+}
+
+// Função para alterar o Cnpj do Fornecedor no Banco de Dados.
+void AlterarCnpjFornecedores(Fornecedores f){
+    
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "update fornecedores set CNPJ = %llu where idFornecedor = %d", f.CNPJ, f.id);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0){
@@ -384,7 +472,7 @@ void MenuExclusao(){
         scanf("%d", &opcao2); getchar();
 
         switch (opcao2){
-            case 1: ConsultarExclusao(); break;
+            case 1: ConsultarPadrao(); break;
             case 2: ExcluirFornecedor();break;          
         }
 
@@ -392,13 +480,14 @@ void MenuExclusao(){
     
 }
     
- // Consulta Fornecedores dentro da Função Excluir Fornecedores    
-void ConsultarExclusao(){
+ // Consulta Fornecedores dentro da Função Excluir e Alterar Fornecedores    
+void ConsultarPadrao(){
 
     limparTela();
     BordaPadrao();
     printf("||\t\tCONSULTA FORNECEDORES\t\t\t\t      ||\n");
     BordaPadrao();
+    printf("||CÓDIGO | RAZÃO SOCIAL\t\t\t\t\t\t      ||\n");
     BordaPadrao();
 
     //Cria a variável de conexão com o MySQL
@@ -423,7 +512,7 @@ void ConsultarExclusao(){
                 char *nome = linha[1];
 
                 //Imprime cada linha
-                printf("|| %10d | %-53s ||\n", id, nome);
+                printf("|| %5d | %-58s ||\n", id, nome);
             }
 
             //Libera os resultado e fecha a conexão

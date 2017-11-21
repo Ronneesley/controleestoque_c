@@ -255,8 +255,7 @@ Estado* selecionarEstado(int codigo) {
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
 
-                Estado estado;
-                Estado *e = &estado;
+                Estado *e = (Estado *) malloc(sizeof(Estado)); // alocação dinâmica de memória
                 strncpy(e->nomeEstado, linha[1], 60);
                 strncpy(e->uf, linha[2], 3);
                 e->idEstado = idEstado;
@@ -298,17 +297,17 @@ void mostrarAlteracaoEstado() {
     printf("|-------------------------------------------------------------------------------------------------------------------|\n");
 
     printf("Digite o novo nome do estado: ");
-    char nomeEstado[100];
+    char nomeEstado[60];
     fgets(nomeEstado, sizeof (nomeEstado), stdin);
     int tamanhoNome = strlen(nomeEstado);
     nomeEstado[tamanhoNome - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(e->nomeEstado, nomeEstado, 100);
+    strncpy(e->nomeEstado, nomeEstado, 60);
 
     printf("Digite o novo uf do estado: ");
     char uf[3];
     fgets(uf, sizeof (uf), stdin);
     int tamanhoUf = strlen(uf);
-    uf[tamanhoUf - 1] = '\0'; //Retira o \n do final da string e coloca \0
+    uf[tamanhoUf] = '\0'; //Retira o \n do final da string e coloca \0
     strncpy(e->uf, uf, 3);
 
     printf("Digite o novo id do Pais: ");

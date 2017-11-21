@@ -50,7 +50,7 @@ void MenuFornecedores(){
 // Sub Menu para consultar os Fornecedores
 void ConsultarFornecedores(){    
     
-    int opcao2;
+    int opcao;
     
     do{
         limparTela();
@@ -64,14 +64,14 @@ void ConsultarFornecedores(){
         printf("\n");
         printf("\n");
         printf("Digite a opção desejada: ");
-        scanf("%d", &opcao2); getchar();
+        scanf("%d", &opcao); getchar();
         
-        switch (opcao2){
+        switch (opcao){
             case 1: consultarNome(); break;
             case 2: consultarId();break;          
         }
             
-    }while (opcao2 !=3);
+    }while (opcao !=3);
     
     
 }
@@ -247,7 +247,7 @@ void inserirFornecedores(Fornecedores f){
 // Mostra Sub Menu da opção de Ateração
 void MenuAlteracao(){
     
-    int opcao2;
+    int opcao;
     
     do{
         limparTela();
@@ -260,14 +260,14 @@ void MenuAlteracao(){
         printf("3) Para Voltar ao Menu Anterior");
         printf("\n\n");
         printf("Digite a opção desejada: ");
-        scanf("%d", &opcao2); getchar();
+        scanf("%d", &opcao); getchar();
 
-        switch (opcao2){
+        switch (opcao){
             case 1: ConsultarPadrao(); break;
             case 2: MostrarAlteracaoFornecedores();break;          
         }
 
-    }while (opcao2 !=3);
+    }while (opcao !=3);
     
 }
 
@@ -310,9 +310,7 @@ void MostrarAlteracaoFornecedores(){
         fgets(nome, sizeof(nome), stdin);
         int tamanho = strlen(nome); nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
         strncpy(f->nomeFornecedor, nome, 100);
-        BordaPadrao();
-        printf("|| Id: %d\n", f->id);
-
+                
         printf("Deseja realmente salvar as alterações? (S/N) ");
         char resposta = getchar(); getchar();
 
@@ -325,7 +323,7 @@ void MostrarAlteracaoFornecedores(){
     if (codigoAlterar == 2){
         printf("Digite o novo CNPJ do fornecedor: ");
         scanf("%llu", &f->CNPJ); getchar();
-        BordaPadrao();
+        
         printf("Deseja realmente salvar as alterações? (S/N) ");
         char resposta = getchar(); getchar();
 
@@ -461,7 +459,7 @@ void AlterarCnpjFornecedores(Fornecedores f){
 // Mostra Sub Menu da opção de exclusão
 void MenuExclusao(){
     
-    int opcao2;
+    int opcao;
     
     do{
         limparTela();
@@ -474,14 +472,14 @@ void MenuExclusao(){
         printf("3) Para Voltar ao Menu Anterior");
         printf("\n\n");
         printf("Digite a opção desejada: ");
-        scanf("%d", &opcao2); getchar();
+        scanf("%d", &opcao); getchar();
 
-        switch (opcao2){
+        switch (opcao){
             case 1: ConsultarPadrao(); break;
             case 2: ExcluirFornecedor();break;          
         }
 
-    }while (opcao2 !=3);
+    }while (opcao !=3);
     
 }
     
@@ -544,10 +542,16 @@ void ExcluirFornecedor(){
     printf("Digite o código do Fornecedor que deseja excluir: ");
     scanf("%d", &codigo);
     getchar();
-
-    DeletarFornecedor(codigo);
-    getchar();    
-
+    printf("\n");
+    printf("Tem certeza que deseja Excluir o Fornecedor %d? (S/N)", codigo);
+        
+    char resposta = getchar(); getchar();
+    
+    if (resposta == 'S' || resposta == 's'){
+        
+        DeletarFornecedor(codigo);
+           
+    }
 }
  
 // Função que excluir o Fornecedor do Banco de Dados
@@ -577,5 +581,6 @@ void DeletarFornecedor(int codigo){
     } else {
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
     }
+    getchar();
 
  }

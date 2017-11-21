@@ -374,7 +374,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
 
-                // Alocação Dinamica de Memória
+                // Alocação Dinamica de Memória.
                 Fornecedores *f = (Fornecedores *) malloc(sizeof(Fornecedores));
                 strncpy(f->nomeFornecedor, linha[1], 100);
                 f->CNPJ = cnpj;

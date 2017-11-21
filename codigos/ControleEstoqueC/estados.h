@@ -9,7 +9,7 @@
 
 typedef struct {
     int idEstado;
-    char nomeEstado[60];
+    char nomeEstado[100];
     char uf[3];// enquanto o limite do vetor estava como 2 o cadastro não funcionava
     int idPais;
 } Estado;

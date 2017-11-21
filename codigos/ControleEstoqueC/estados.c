@@ -297,11 +297,11 @@ void mostrarAlteracaoEstado() {
     printf("|-------------------------------------------------------------------------------------------------------------------|\n");
 
     printf("Digite o novo nome do estado: ");
-    char nomeEstado[60];
+    char nomeEstado[100];
     fgets(nomeEstado, sizeof (nomeEstado), stdin);
     int tamanhoNome = strlen(nomeEstado);
     nomeEstado[tamanhoNome - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(e->nomeEstado, nomeEstado, 60);
+    strncpy(e->nomeEstado, nomeEstado, 100);
 
     printf("Digite o novo uf do estado: ");
     char uf[3];

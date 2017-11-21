@@ -275,7 +275,6 @@ void MenuAlteracao(){
 void MostrarAlteracaoFornecedores(){
     
     int codigo;
-    int codigoAlterar;
     limparTela();
     BordaPadrao();
     printf("||\t\t\tALTERARAÇÃO DE FORNECEDORES\t\t      ||\n");
@@ -297,6 +296,8 @@ void MostrarAlteracaoFornecedores(){
     BordaPadrao();
     printf("\n");
     
+    int codigoAlterar;
+    
     // Escolha do campo a ser  alterado no cadastro de Fornecedores
     printf("Digite: 1)Para Alterar o Nome - 2)Para Alterar o CNPJ: ");
     scanf("%d", &codigoAlterar);getchar();
@@ -304,15 +305,16 @@ void MostrarAlteracaoFornecedores(){
     
     // Alteração do campo Nome do Cadastro de Fornecedores
     if (codigoAlterar == 1){
-    printf("Digite o novo nome do fornecedor: ");
-    char nome[100];
-    fgets(nome, sizeof(nome), stdin);
-    int tamanho = strlen(nome); nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->nomeFornecedor, nome, 100);
-    BordaPadrao();
+        printf("Digite o novo nome do fornecedor: ");
+        char nome[100];
+        fgets(nome, sizeof(nome), stdin);
+        int tamanho = strlen(nome); nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+        strncpy(f->nomeFornecedor, nome, 100);
+        BordaPadrao();
+        printf("|| Id: %d\n", f->id);
 
-    printf("Deseja realmente salvar as alterações? (S/N) ");
-    char resposta = getchar(); getchar();
+        printf("Deseja realmente salvar as alterações? (S/N) ");
+        char resposta = getchar(); getchar();
 
         if (resposta == 'S' || resposta == 's'){
             AlterarNomeFornecedores(*f);
@@ -321,17 +323,19 @@ void MostrarAlteracaoFornecedores(){
     
     // Alteração do campo CNPJ do Cadastro de Fornecedores
     if (codigoAlterar == 2){
-    printf("Digite o novo CNPJ do fornecedor: ");
-    scanf("%llu", &f->CNPJ);
-    BordaPadrao();
-    printf("Deseja realmente salvar as alterações? (S/N) ");
-    char resposta = getchar(); getchar();
+        printf("Digite o novo CNPJ do fornecedor: ");
+        scanf("%llu", &f->CNPJ); getchar();
+        BordaPadrao();
+        printf("Deseja realmente salvar as alterações? (S/N) ");
+        char resposta = getchar(); getchar();
 
         if (resposta == 'S' || resposta == 's'){
             AlterarCnpjFornecedores(*f);
         }
     }
-
+    
+    free(f);
+   
 }
 
 
@@ -370,8 +374,8 @@ Fornecedores* SelecionarFornecedores(int codigo){
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
 
-                Fornecedores fornecedor;
-                Fornecedores *f = &fornecedor;
+                // Alocação Dinamica de Memória
+                Fornecedores *f = (Fornecedores *) malloc(sizeof(Fornecedores));
                 strncpy(f->nomeFornecedor, linha[1], 100);
                 f->CNPJ = cnpj;
                 f->id = id;
@@ -406,7 +410,7 @@ void AlterarNomeFornecedores(Fornecedores f){
         //Cria o comando SQL para envio
         char sql[500];
         snprintf(sql, 500, "update fornecedores set nomeFornecedor = '%s' where idFornecedor = %d", f.nomeFornecedor, f.id);
-
+        
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0){
             mysql_close(&mysql); //Encerra a conexão
@@ -436,7 +440,8 @@ void AlterarCnpjFornecedores(Fornecedores f){
         //Cria o comando SQL para envio
         char sql[500];
         snprintf(sql, 500, "update fornecedores set CNPJ = %llu where idFornecedor = %d", f.CNPJ, f.id);
-
+        
+              
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0){
             mysql_close(&mysql); //Encerra a conexão

@@ -27,6 +27,8 @@ typedef struct {
 void mostrarListagemCidades();
 void mostrarCadastroCidade();
 void inserirCidade(cidade);
+void mostrarExclusaoCidade();
+void ExclusaoCidade(int codigo);
 
 #endif /* CIDADE_H */
 

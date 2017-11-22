@@ -24,3 +24,41 @@ void mostrarListagemCidades(){
     }
 }
 
+
+void ExclusaoCidade(int codigo) {
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "delete from cidade where idCidade = %d", codigo);
+        
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0) {
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("cidade excluída com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+
+}
+
+
+void mostrarExclusaoCidade() {
+    int codigo;
+    printf("Digite o código da cidade que deseja excluir: ");
+    scanf("%d", &codigo);
+    getchar();
+
+    ExclusaoCidade(codigo);
+    getchar();
+}
+

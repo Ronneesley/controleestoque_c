@@ -471,6 +471,8 @@ void mostrarAlteracaoFuncionario() {
 
 }
 
+
+
 void mostrarExclusaoFuncionario() {
     int codigo;
     printf("Digite o código do funcionario que deseja excluir: ");

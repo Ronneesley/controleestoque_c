@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 #include "funcionarios.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void mostrarListagemFuncionarios() {
     int opcao;
@@ -196,10 +189,11 @@ void alterarFuncionario(Funcionarios f) {
     //Conecta no banco de dados
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         //Cria o comando SQL para envio
-        char sql[500];
-        snprintf(sql, 500, "update funcionarios set pisPasepFuncionario = '%d',profissaoFuncionario = '%s',rgFuncionario = '%d',cpfFuncionario = '%d',telefoneFuncionario = '%d',cepFuncionario = '%d',cidadeFuncionario = '%s',EnderecoFuncionario = '%s',DataNascimentoFuncionario = '%s', SexoFuncionario = '%s', NomeFuncionario = '%s' where idFuncionario = %d",
+        char sql[2000];
+        nome:
+        snprintf(sql, 2000, "update funcionarios set pisPasepFuncionario = '%d',profissaoFuncionario = '%s',rgFuncionario = '%d',cpfFuncionario = '%d',telefoneFuncionario = '%d',cepFuncionario = '%d',cidadeFuncionario = '%s',EnderecoFuncionario = '%s',DataNascimentoFuncionario = '%s', SexoFuncionario = '%s', NomeFuncionario = '%s' where idFuncionario = %d",
                 f.pispasep, f.profissao, f.rg, f.cpf, f.telefone, f.cep, f.cidade, f.endereco, f.datanascimento, f.sexo, f.nome, f.id);
-
+        
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0) {
             mysql_close(&mysql); //Encerra a conexão
@@ -245,8 +239,8 @@ Funcionarios* selecionarFuncionario(int codigo) {
 
     //Efetua a conexão
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
-        char sql[500];
-        snprintf(sql, 500, "select idFuncionario, NomeFuncionario,SexoFuncionario,DataNascimentoFuncionario,EnderecoFuncionario,cidadeFuncionario,cepFuncionario,telefoneFuncionario,cpfFuncionario,rgFuncionario,profissaoFuncionario,pisPasepFuncionario from funcionarios where idFuncionario = %d", codigo);
+        char sql[2000];
+        snprintf(sql, 2000, "select idFuncionario, NomeFuncionario,SexoFuncionario,DataNascimentoFuncionario,EnderecoFuncionario,cidadeFuncionario,cepFuncionario,telefoneFuncionario,cpfFuncionario,rgFuncionario,profissaoFuncionario,pisPasepFuncionario from funcionarios where idFuncionario = %d", codigo);
 
 
 
@@ -314,7 +308,7 @@ Funcionarios* selecionarFuncionario(int codigo) {
 
 void mostrarAlteracaoFuncionario() {
     int codigo;
-    int opcao;
+   
     printf("Digite o código do Funcionarios que deseja alterar: ");
     scanf("%d", &codigo);
     getchar();
@@ -339,23 +333,7 @@ void mostrarAlteracaoFuncionario() {
     printf("| Profissão:  %s\n", f->profissao);
     printf("| PisPasep:  %d\n", f->pispasep);
 
-    limparTela();
-    printf("1) Para alterar o nome do funcionario\n");
-    printf("2) Para alterar o Sexo do funcionario\n");
-    printf("3) Para alterar a Data de Nascimento do funcionario\n");
-    printf("4) Para alterar o Endereço do funcionario\n");
-    printf("5) Para alterar a Cidade do funcionario\n");
-    printf("6) Para alterar o Cep do funcionario\n");
-    printf("7) Para alterar o Telefone do funcionario\n");
-    printf("8) Para alterar o CPF do funcionario\n");
-    printf("9) Para alterar o RG do funcionario\n");
-    printf("10) Para alterar a Profissão do funcionario\n");
-    printf("11) Para alterar o PisPasep do funcionario\n");
-    scanf("%d", &opcao);
-    getchar();
-
-    switch (opcao) {
-        case 1:
+   
             printf("|--------------------------------------------------------------------|\n");
             printf("Digite o novo nome do Funcionario: ");
             char nome[100];
@@ -364,9 +342,7 @@ void mostrarAlteracaoFuncionario() {
             nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
             strncpy(f->nome, nome, 100);
             printf("|--------------------------------------------------------------------|\n");
-            break;
-
-        case 2:
+    
             printf("Digite o novo sexo do Funcionario: ");
             char sexo[100];
             fgets(sexo, sizeof (sexo), stdin);
@@ -375,9 +351,7 @@ void mostrarAlteracaoFuncionario() {
             strncpy(f->sexo, sexo, 100);
             printf("|--------------------------------------------------------------------|\n");
 
-            break;
-
-        case 3:
+        
 
             printf("Digite a nova Data de Nascimento do Funcionario: ");
             char datanascimento[100];
@@ -386,8 +360,9 @@ void mostrarAlteracaoFuncionario() {
             datanascimento[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
             strncpy(f->datanascimento, datanascimento, 100);
             printf("|--------------------------------------------------------------------|\n");
-            break;
-        case 4:
+         
+            
+            
             printf("Digite novo Endereço do Funcionario: ");
             char endereco[100];
             fgets(endereco, sizeof (endereco), stdin);
@@ -395,8 +370,9 @@ void mostrarAlteracaoFuncionario() {
             endereco[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
             strncpy(f->endereco, endereco, 100);
             printf("|--------------------------------------------------------------------|\n");
-            break;
-        case 5:
+          
+            
+            
             printf("Digite a nova Cidade do Funcionario: ");
             char cidade[100];
             fgets(cidade, sizeof (cidade), stdin);
@@ -404,39 +380,33 @@ void mostrarAlteracaoFuncionario() {
             cidade[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
             strncpy(f->cidade, cidade, 100);
             printf("|--------------------------------------------------------------------|\n");
-            break;
-        case 6:
+            
+            
+           
             printf("| Digite o novo CEP:  ");
             scanf("%d", &f->cep);
             getchar();
             printf("|--------------------------------------------------------------------|\n");
 
-            break;
-        case 7:
+         
             printf("| Digite o novo Telefone:  ");
             scanf("%d", &f->telefone);
             getchar();
             printf("|--------------------------------------------------------------------|\n");
 
-            break;
-        case 8:
+        
             printf("| Digite o novo CPF:  ");
             scanf("%d", &f->cpf);
             getchar();
             printf("|--------------------------------------------------------------------|\n");
 
-            break;
-        case 9:
+         
 
             printf("| Digite o novo RG:  ");
             scanf("%d", &f->rg);
             getchar();
             printf("|--------------------------------------------------------------------|\n");
 
-
-
-            break;
-        case 10:
 
 
             printf("Digite a nova Profissão do Funcionario: ");
@@ -447,18 +417,12 @@ void mostrarAlteracaoFuncionario() {
             strncpy(f->profissao, profissao, 100);
             printf("|--------------------------------------------------------------------|\n");
 
-            break;
-        case 11:
-
             printf("| Digite o novo PisPasep:  ");
             scanf("%d", &f->pispasep);
             getchar();
             printf("|--------------------------------------------------------------------|\n");
 
-            break;
-
-    }
-
+        
     printf("Deseja realmente salvar as alterações? (S/N) ");
     char resposta = getchar();
     getchar();

@@ -14,3 +14,14 @@ create table estados (
 	idPais int not null,
 	constraint foreign key (idPais) references paises(id)
 );
+
+create table cidades(
+	id int not null auto_increment,
+	nome varchar(65) not null,
+	cep varchar(10) not null,
+	idEstado int not null,
+	constraint foreign key (idEstado) references estados(idEstado),
+	primary key (id)
+);
+
+

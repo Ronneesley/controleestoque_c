@@ -1,5 +1,5 @@
 #include "cidade.h"
-
+#include "gerais.h"
 void mostrarListagemCidades(){
     int opcao;
     
@@ -150,6 +150,102 @@ void mostrarExclusaoCidade() {
     getchar();
 
     ExclusaoCidade(codigo);
+    getchar();
+}
+void alterarCidade(cidade c){
+   
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        char sql[500];
+        snprintf(sql, 500, "update cidades set nomeCidade = '%s' where idCidade = %d", c.nome, c.id);
+        
+        if (mysql_query(&mysql, sql) == 0){
+            mysql_close(&mysql);
+
+            printf("Cidade alterada com sucesso\n");
+        } else {
+            printf("%s\n", mysql_error(&mysql));
+        }
+    } else {
+        printf("Falha ao conectar-se com o banco de dados: %s\n", mysql_error(&mysql));
+    }
+}
+
+Cidade* selecionarCidade(int id){
+
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        char sql[500];
+        snprintf(sql, 500, "select idCidade, nomeCidade from cidades where idCidade = %d", id);
+
+        if (mysql_query(&mysql, sql) == 0){
+
+            MYSQL_RES *resultado = mysql_store_result(&mysql);
+
+            MYSQL_ROW linha;
+            int id; 
+            char *nome;
+            if ( (linha = mysql_fetch_row(resultado)) ){
+                id = atoi(linha[0]);
+
+                mysql_free_result(resultado);
+                mysql_close(&mysql);
+
+                cidade cidade;
+                cidade *c = &cidade;
+                strncpy(c->nome, linha[1], 100);
+                c->id = id;
+
+                return c;
+            } else {
+
+                mysql_free_result(resultado);
+                mysql_close(&mysql);
+
+                return NULL;
+            }
+        } else {
+            printf("%s\n", mysql_error(&mysql));
+        }
+    } else {
+        printf("Falha ao conectar-se com o banco de dados: %s\n", mysql_error(&mysql));
+    }
+    getchar();
+}
+
+void mostrarAlteracaoCidade(){
+    int id;
+    printf("Digite o ID da cidade que deseja alterar: ");
+    scanf("%d", &id); getchar();
+
+    cidade *c = selecionarCidade(id);
+
+    limparTela();
+    printf("|--------------------------------------------------------------------|\n");
+    printf("| CADASTRO DE CIDADES                                                |\n");
+    printf("|--------------------------------------------------------------------|\n");
+    printf("| Id: %d\n", c->id);
+    printf("| Nome: %s\n", c->nome);
+    printf("|--------------------------------------------------------------------|\n");
+
+    printf("Digite o novo nome da cidade: ");
+    char nome[100];
+    fgets(nome, sizeof(nome), stdin);
+    int tamanho = strlen(nome); nome[tamanho - 1] = '\0';
+    strncpy(c->nome, nome, 100);
+    printf("|--------------------------------------------------------------------|\n");
+
+    printf("Deseja realmente salvar as alterações? (S/N) ");
+    char resposta = getchar(); getchar();
+
+    if (resposta == 'S' || resposta == 's'){
+        alterarCidade(*c);
+    }
+
     getchar();
 }
 

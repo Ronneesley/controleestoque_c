@@ -14,6 +14,7 @@
 #ifndef CIDADE_H
 #define CIDADE_H
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <mysql/mysql.h>
@@ -34,6 +35,6 @@ void mostrarListagemEstado_Cadastro();
 void inserirCidade(cidade c);
 void mostrarExclusaoCidade();
 void ExclusaoCidade(int codigo);
-
+void alterarCidade(cidade c);
+cidade* selecionarCidade(int id);
 #endif /* CIDADE_H */
-

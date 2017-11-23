@@ -16,7 +16,9 @@ void mostrarListagemFuncionarios() {
 
         if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
             //Executa o comando de consulta
+       //   if (mysql_query(&mysql, "SELECT idPessoas, nome, data_nascimento,endereco,cep,telefone,cpf,rg from pessoas INNERfuncionarios ON pessoas.idPessoas = funcionarios.Pessoas_idPessoas;") == 0) {
             if (mysql_query(&mysql, "SELECT  idFuncionario, NomeFuncionario, SexoFuncionario, DataNascimentoFuncionario,EnderecoFuncionario, cidadeFuncionario, cepFuncionario,telefoneFuncionario, cpfFuncionario,rgFuncionario,profissaoFuncionario, pisPasepFuncionario from funcionarios") == 0) {
+        
                 //Obtém o resultado
                 MYSQL_RES *resultado = mysql_store_result(&mysql);
 
@@ -99,7 +101,7 @@ void mostrarCadastroFuncionario() {
     tamanho = strlen(f.sexo);
     f.sexo[tamanho - 1] = '\0';
 
-    printf("| DATA DE NASCIOMENTO (XX/XX/XXX): ");
+    printf("| DATA DE NASCIMENTO (XX/XX/XXX): ");
     fgets(f.datanascimento, sizeof (f.datanascimento), stdin);
     tamanho = strlen(f.datanascimento);
     f.datanascimento[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	

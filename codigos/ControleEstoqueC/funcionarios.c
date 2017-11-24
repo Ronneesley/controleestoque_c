@@ -90,54 +90,54 @@ void mostrarCadastroFuncionario() {
     printf("|---------------------------------------------------------------|\n");
 
 
-    printf("| NOME: ");
+    printf("| INFORME O NOME DO FUNCIONARIO: ");
     fgets(f.nome, sizeof (f.nome), stdin);
     int tamanho = strlen(f.nome);
     f.nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
 
 
-    printf("| SEXO (F/M): ");
+    printf("| INFORME O SEXO (F/M): ");
     fgets(f.sexo, sizeof (f.sexo), stdin);
     tamanho = strlen(f.sexo);
     f.sexo[tamanho - 1] = '\0';
 
-    printf("| DATA DE NASCIMENTO (XX/XX/XXX): ");
+    printf("| INFORME A  DATA DE NASCIMENTO (XX/XX/XXXX): ");
     fgets(f.datanascimento, sizeof (f.datanascimento), stdin);
     tamanho = strlen(f.datanascimento);
     f.datanascimento[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
 
-    printf("| ENDEREÇO: ");
+    printf("|INFORME O ENDEREÇO: ");
     fgets(f.endereco, sizeof (f.endereco), stdin);
     tamanho = strlen(f.endereco);
     f.endereco[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
 
-    printf("| CIDADE: ");
+    printf("| INFORME A CIDADE: ");
     fgets(f.cidade, sizeof (f.cidade), stdin);
     tamanho = strlen(f.cidade);
     f.cidade[tamanho - 1] = '\0';
 
-    printf("| CEP: ");
+    printf("| INFORME O CEP: ");
     scanf("%d", &f.cep);
     getchar();
 
-    printf("| TELEFONE(XX)XXXXX-XXXX: ");
+    printf("| INFORME O TELEFONE(XX)XXXXX-XXXX: ");
     scanf("%d", &f.telefone);
     getchar();
 
-    printf("| CPF:  ");
+    printf("| INFORME O CPF:  ");
     scanf("%d", &f.cpf);
     getchar();
 
-    printf("| RG: ");
+    printf("| INFORME O RG: ");
     scanf("%d", &f.rg);
     getchar();
 
-    printf("| PROFISSÃO: ");
+    printf("| INFORME A PROFISSÃO: ");
     fgets(f.profissao, sizeof (f.profissao), stdin);
     tamanho = strlen(f.profissao);
     f.profissao[tamanho - 1] = '\0';
 
-    printf("| PIS/PASEP: ");
+    printf("| INFORME O  PIS/PASEP: ");
     scanf("%d", &f.pispasep);
     getchar();
 

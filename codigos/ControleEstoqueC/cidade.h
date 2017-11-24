@@ -14,6 +14,7 @@
 #ifndef CIDADE_H
 #define CIDADE_H
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <mysql/mysql.h>
@@ -25,15 +26,15 @@ typedef struct {
     int idEstado;
     char cep[10];
     char nome[101];
-}cidade;
+}Cidade;
 
 void mostrarListagemCidades();
 void mostrarCadastroCidade();
 void mostrarAlteracaoCidade();
 void mostrarListagemEstado_Cadastro();
-void inserirCidade(cidade c);
+void inserirCidade(Cidade c);
 void mostrarExclusaoCidade();
 void ExclusaoCidade(int codigo);
-
+void alterarCidade(Cidade c);
+Cidade* selecionarCidade(int id);
 #endif /* CIDADE_H */
-

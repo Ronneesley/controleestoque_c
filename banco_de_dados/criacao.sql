@@ -16,9 +16,8 @@ create table estados (
 );
 
 create table cidades(
-	id int not null auto_increment,
-	nome varchar(65) not null,
-	cep varchar(10) not null,
+	idCidade int not null auto_increment,
+	nomeCidade varchar(65) not null,
 	idEstado int not null,
 	constraint foreign key (idEstado) references estados(idEstado),
 	primary key (id)

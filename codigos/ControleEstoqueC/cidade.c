@@ -6,25 +6,26 @@ void mostrarListagemCidades(){
     do {
         limparTela();
 
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-        printf("| LISTAGEM DE CIDADES                                                                                               |\n");
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
-        printf("| ID         | NOME                             | CEP                     | ID ESTADOS                              |\n");
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+        printf("|-----------------------------------------------------------------------------------------|\n");
+        printf("| LISTAGEM DE CIDADES                                                                     |\n");
+        printf("|-----------------------------------------------------------------------------------------|\n");
+        printf("| ID         | NOME                             | ID ESTADOS                              |\n");
+        printf("|-----------------------------------------------------------------------------------------|\n");
         
         MYSQL mysql;
         mysql_init(&mysql);
         
         if(mysql_real_connect(&mysql,SERVIDOR_BD,USUARIO_BD,SENHA_BD,NOME_BD,PORTA_BD,NULL,0)){
-            if(!mysql_query(&mysql,"SELECT id, nome, cep, cidades.idEstado from cidades, estados where estados.idEstado = cidades.idEstado")){
+            if(!mysql_query(&mysql,"SELECT idCidade, nomeCidade, cidades.idEstado from cidades, estados where estados.idEstado = cidades.idEstado")){
                 MYSQL_RES *resultado = mysql_store_result(&mysql);
                 MYSQL_ROW linha;
                 while((linha = mysql_fetch_row(resultado))){
                     
-                    int id = atoi(linha[0]), idEstado = atoi(linha[3]);
-                    char *nome = linha[1], *cep = linha[2];
+                    int id = atoi(linha[0]), idEstado = atoi(linha[2]);
+                    char *nome = linha[1];
                    
-                    printf("|%-12d|%-34s|%-1s|%-0d|\n", id, nome, cep, idEstado);
+                    printf("|%-12d|%-34s|%-41d|\n", id, nome, idEstado);
+                    printf("|-----------------------------------------------------------------------------------------|\n");
                 }
             }else{
                 printf("erro: %s",mysql_error(&mysql));
@@ -33,7 +34,7 @@ void mostrarListagemCidades(){
             printf("Falha ao conectar ao banco de dados: %s",mysql_error(&mysql));
         }
         
-        printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+        
 
         printf("O que deseja fazer?\n");
         printf("1) Cadastrar uma nova Cidade\n");
@@ -76,10 +77,6 @@ void mostrarCadastroCidade() {
     int tamanho = strlen(c.nome); c.nome[tamanho - 1] = '\0'; 
     printf("|--------------------------------------------------------------------|\n");
     
-   printf("| CEP: ");
-    fgets(c.cep, sizeof (c.cep), stdin);
-    int tamanhoCEP = strlen(c.cep);
-    c.cep[tamanhoCEP] = '\0'; //Retira o \n do final da string e coloca \0
     
     printf("| ID ESTADO: ");
     scanf("%d", &c.idEstado);
@@ -93,6 +90,7 @@ void mostrarCadastroCidade() {
     if (resposta == 'S' || resposta == 's') {
         inserirCidade(c);
     }
+    limparTela();
 }
 
 void inserirCidade(cidade c) {
@@ -101,7 +99,7 @@ void inserirCidade(cidade c) {
     
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         char sql[500];
-        snprintf(sql, 500, "insert into cidades(nome, cep, idEstado) values('%s', '%s', %d);", c.nome, c.cep, c.idEstado);
+        snprintf(sql, 500, "insert into cidades(nomeCidade, idEstado) values('%s', %d);", c.nome, c.idEstado);
         
         if (mysql_query(&mysql, sql) == 0) {
             mysql_close(&mysql);
@@ -125,7 +123,7 @@ void ExclusaoCidade(int codigo) {
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         //Cria o comando SQL para envio
         char sql[500];
-        snprintf(sql, 500, "delete from cidade where idCidade = %d", codigo);
+        snprintf(sql, 500, "delete from cidades where idCidade = %d", codigo);
         
 
         //Envia o comando e analisa a resposta

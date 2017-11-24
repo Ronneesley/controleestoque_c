@@ -28,9 +28,9 @@ typedef struct {
     char endereco[200];
     char cidade[50];
     int  cep;
-    int  telefone;
-    int  cpf;
-    int  rg;
+    long int  telefone;
+    long int  cpf;
+    long int  rg;
     char profissao[100];
     int  pispasep;
     char dataCadastro[20];

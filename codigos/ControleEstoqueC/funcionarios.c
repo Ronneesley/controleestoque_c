@@ -328,12 +328,12 @@ void mostrarAlteracaoFuncionario() {
     printf("| Data de Nascimento:  %s\n", f->datanascimento);
     printf("| Endereço:  %s\n", f->endereco);
     printf("| Cidade :  %s\n", f->cidade);
-    printf("| Cep:  %d\n", f->cep);
-    printf("| Telefone:  %d\n", f->telefone);
-    printf("| Cpf:  %d\n", f->cpf);
-    printf("| rg:  %d\n", f->rg);
+    printf("| Cep:  %llu\n", f->cep);
+    printf("| Telefone:  %llu\n", f->telefone);
+    printf("| Cpf:  %llu\n", f->cpf);
+    printf("| rg:  %llu\n", f->rg);
     printf("| Profissão:  %s\n", f->profissao);
-    printf("| PisPasep:  %d\n", f->pispasep);
+    printf("| PisPasep:  %llu\n", f->pispasep);
 
    
             printf("|--------------------------------------------------------------------|\n");

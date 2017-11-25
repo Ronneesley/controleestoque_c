@@ -9,7 +9,7 @@ void mostrarListagemFuncionarios() {
         printf("|------------------------------------------------------------------------------------------------------------|\n");
         printf("|                                          LISTAGEM DE FUNCIONARIOS                                          |\n");
         printf("|------------------------------------------------------------------------------------------------------------|\n");
-        printf("|  ID  |  NOME  | SEXO | DATA DE NASCIMENTO | ENDEREÇO |CIDADE| CEP |TELEFONE| CPF |RG |PROFISSAO| PIS/PASEP |\n");
+        printf("|  ID  |  NOME  | SEXO | DATA DE NASCIMENTO | ENDEREÇO | CIDADE | CEP | TELEFONE | CPF |RG | PROFISSAO | PIS/PASEP |\n");
         printf("|------------------------------------------------------------------------------------------------------------|\n");
         MYSQL mysql;
         mysql_init(&mysql);
@@ -44,7 +44,7 @@ void mostrarListagemFuncionarios() {
 
 
                     //Imprime cada linha
-                    printf("|  %d  | %s |  %s  |    %-8s      |  %s  |  %s |%d | %d  | %d  | %d| %s |     %d     |\n",
+                    printf("|%d| %s |%s| %-8s| %s |%s |%d | %d |%d|%d| %s |%d |\n",
                             id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
 
                 }

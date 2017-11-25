@@ -35,7 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/cidade.o \
+	${OBJECTDIR}/cidades.o \
 	${OBJECTDIR}/clientes.o \
 	${OBJECTDIR}/estados.o \
 	${OBJECTDIR}/fornecedores.o \
@@ -70,10 +70,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controleestoquec: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/controleestoquec ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/cidade.o: cidade.c
+${OBJECTDIR}/cidades.o: cidades.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/cidade.o cidade.c
+	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/cidades.o cidades.c
 
 ${OBJECTDIR}/clientes.o: clientes.c
 	${MKDIR} -p ${OBJECTDIR}

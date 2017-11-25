@@ -42,14 +42,10 @@ void mostrarListagemFuncionarios() {
                     //atoi = converter para "string" para int
                     //atof = converter para 'string' para double
 
-
                     //Imprime cada linha
-<<<<<<< HEAD
+
                     printf("|  %d  | %s |  %s  |    %-8s      |  %s  |  %s |%d | %s  | %s  | %d| %s |     %s     |\n",
-=======
-                    printf("|%d| %s |%s| %-8s| %s |%s |%d | %d |%d|%d| %s |%d |\n",
->>>>>>> 5490aa3cf285614ffdea03e195542a25df45a9e9
-                            id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
+			id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao,pispasep);
 
                 }
 

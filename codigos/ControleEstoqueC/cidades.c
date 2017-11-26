@@ -1,5 +1,12 @@
 #include "cidades.h"
-#include "gerais.h"
+/*
+ *Arquivo que contém a implementação de todo o CRUD de cidades.
+ * Autores: Daniel, Matheus, Patricia, Vitor
+ */
+
+/*
+ * Lista todos as cidades cadastradas no banco de dados.
+ */
 void mostrarListagemCidades(){
     int opcao;
     
@@ -7,24 +14,25 @@ void mostrarListagemCidades(){
         limparTela();
 
         printf("|-----------------------------------------------------------------------------------------|\n");
-        printf("| LISTAGEM DE CIDADES                                                                     |\n");
+        printf("|                                   LISTAGEM DE CIDADES                                   |\n");
         printf("|-----------------------------------------------------------------------------------------|\n");
-        printf("| ID         | NOME                             | ID ESTADOS                              |\n");
+        printf("| ID         | NOME                             | ID ESTADOS   | UF                       |\n");
         printf("|-----------------------------------------------------------------------------------------|\n");
         
         MYSQL mysql;
         mysql_init(&mysql);
         
         if(mysql_real_connect(&mysql,SERVIDOR_BD,USUARIO_BD,SENHA_BD,NOME_BD,PORTA_BD,NULL,0)){
-            if(!mysql_query(&mysql,"SELECT idCidade, nomeCidade, cidades.idEstado from cidades, estados where estados.idEstado = cidades.idEstado")){
+            if(!mysql_query(&mysql,"SELECT idCidade, nomeCidade, cidades.idEstado,estados.uf from cidades, estados where estados.idEstado = cidades.idEstado")){
                 MYSQL_RES *resultado = mysql_store_result(&mysql);
                 MYSQL_ROW linha;
                 while((linha = mysql_fetch_row(resultado))){
                     
                     int id = atoi(linha[0]), idEstado = atoi(linha[2]);
                     char *nome = linha[1];
+                    char *uf = linha[3];
                    
-                    printf("|%-12d|%-34s|%-41d|\n", id, nome, idEstado);
+                    printf("|%-12d|%-34s|%-14d|%-26s|\n", id, nome, idEstado,uf);
                     printf("|-----------------------------------------------------------------------------------------|\n");
                 }
             }else{
@@ -52,19 +60,22 @@ void mostrarListagemCidades(){
                 mostrarCadastroCidade();
                 break;
             case 2: 
-                //mostrarAlteracaoCidade();
+                mostrarAlteracaoCidade();
                 break;
             case 3: 
                 mostrarExclusaoCidade();
                 break;
-            case 4:
-                //mostrarListagemEstado_Cadastro();
-                break;
+            default:
+                printf("Opção invalida!\n");
         }
     }while (opcao != 5);
    
  }
-    
+
+/*
+ *Mostra a tela de cadastro da cidade
+ * 
+ */
 void mostrarCadastroCidade() {
     Cidade c;
     limparTela();
@@ -77,7 +88,7 @@ void mostrarCadastroCidade() {
     int tamanho = strlen(c.nome); c.nome[tamanho - 1] = '\0'; 
     printf("|--------------------------------------------------------------------|\n");
     
-    
+    mostrarListaEstados();
     printf("| ID ESTADO: ");
     scanf("%d", &c.idEstado);
     getchar();
@@ -93,6 +104,9 @@ void mostrarCadastroCidade() {
     limparTela();
 }
 
+/*
+ *Insere a cidade no banco de dados.
+ */
 void inserirCidade(Cidade c) {
     MYSQL mysql;
     mysql_init(&mysql);
@@ -112,7 +126,9 @@ void inserirCidade(Cidade c) {
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql));
     }
 }
-
+/*
+ *
+ */
 
 void ExclusaoCidade(int codigo) {
     //Inicializa a variável de conexão com o MySQL
@@ -139,8 +155,55 @@ void ExclusaoCidade(int codigo) {
     }
 
 }
+/*
+ * Lista de estados para auxiliar no cadastro de cidades
+ */
+void mostrarListaEstados(){
 
+    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+    printf("| LISTAGEM DE ESTADOS                                                                                               |\n");
+    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+    printf("| ID         | NOME                             | UF                     | ID PAÍS                                  |\n");
+    printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+    MYSQL mysql;
+    mysql_init(&mysql);
 
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
+        //Executa o comando de consulta
+        if (mysql_query(&mysql, "select idEstado, nomeEstado, uf, idPais from estados order by nomeEstado") == 0) {
+            //Obtém o resultado
+            MYSQL_RES *resultado = mysql_store_result(&mysql);
+
+            MYSQL_ROW linha;
+
+            while ((linha = mysql_fetch_row(resultado))) {
+                int idEstado = atoi(linha[0]), idPais = atoi(linha[3]);
+                char *nomeEstado = linha[1], *uf = linha[2];
+
+                //Imprime
+                printf("| %10d | %-32s | %-22s | %40d |\n", idEstado, nomeEstado, uf, idPais);
+                printf("|-------------------------------------------------------------------------------------------------------------------|\n");
+            }
+
+            mysql_free_result(resultado);
+            mysql_close(&mysql);
+            printf("O estado da cidade que deseja cadastrar já está cadastrado?(S/N)");
+            setbuf(stdin, NULL);//Limpa o buffer do teclado.
+            char resposta = getchar();getchar();
+            
+            if(resposta == 'N' || resposta == 'n'){
+                mostrarCadastroEstado();
+                mostrarListaEstados();
+            }
+        } else {
+            printf("%s\n", mysql_error(&mysql));
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar
+    }
+
+    
+}
 void mostrarExclusaoCidade() {
     int codigo;
     printf("Digite o código da cidade que deseja excluir: ");
@@ -157,8 +220,7 @@ void alterarCidade(Cidade c){
 
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
         char sql[500];
-        snprintf(sql, 500, "update cidades set nomeCidade = '%s' where idCidade = %d", c.nome, c.id);
-        
+        snprintf(sql, 500, "update cidades set nomeCidade = '%s',idEstado = %d where idCidade = %d", c.nome,c.idEstado ,c.id);
         if (mysql_query(&mysql, sql) == 0){
             mysql_close(&mysql);
 
@@ -178,7 +240,7 @@ Cidade* selecionarCidade(int id){
 
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
         char sql[500];
-        snprintf(sql, 500, "select idCidade, nomeCidade from cidades where idCidade = %d", id);
+        snprintf(sql, 500, "select idCidade, nomeCidade,idEstado from cidades where idCidade = %d", id);
 
         if (mysql_query(&mysql, sql) == 0){
 
@@ -186,16 +248,18 @@ Cidade* selecionarCidade(int id){
 
             MYSQL_ROW linha;
             int id; 
+            int idEstado;
             char *nome;
             if ( (linha = mysql_fetch_row(resultado)) ){
                 id = atoi(linha[0]);
-
+                idEstado = atoi(linha[2]);
+                
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
 
-                Cidade cidade;
-                Cidade *c = &cidade;
+                Cidade *c = (Cidade*) malloc(sizeof(Cidade));
                 strncpy(c->nome, linha[1], 100);
+                c->idEstado = idEstado;
                 c->id = id;
 
                 return c;
@@ -228,18 +292,27 @@ void mostrarAlteracaoCidade(){
     printf("|--------------------------------------------------------------------|\n");
     printf("| Id: %d\n", c->id);
     printf("| Nome: %s\n", c->nome);
+    printf("| id do Estado:%d\n",c->idEstado);
     printf("|--------------------------------------------------------------------|\n");
-
+    
     printf("Digite o novo nome da cidade: ");
     char nome[100];
+    
+    int idEstado;
     fgets(nome, sizeof(nome), stdin);
     int tamanho = strlen(nome); nome[tamanho - 1] = '\0';
-    strncpy(c->nome, nome, 100);
-    printf("|--------------------------------------------------------------------|\n");
+    strncpy(c->nome, nome,100);
+    
+    printf("Digite o id do estado:");
+    scanf("%d",&c->idEstado);
+    
+    
 
+    printf("|--------------------------------------------------------------------|\n");
+    getchar();
     printf("Deseja realmente salvar as alterações? (S/N) ");
     char resposta = getchar(); getchar();
-
+    printf("Nome c: %s\n",c->nome);
     if (resposta == 'S' || resposta == 's'){
         alterarCidade(*c);
     }

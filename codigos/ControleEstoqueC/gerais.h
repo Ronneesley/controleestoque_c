@@ -8,4 +8,10 @@
  */
 void limparTela();
 
+/**
+ * Lê um vetor de caractere.
+ */
+void leString(char s[], int tam);
+
+
 #endif

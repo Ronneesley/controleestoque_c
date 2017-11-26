@@ -1,29 +1,53 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   produtos.h
- * Author: aluno
- *
- * Created on 30 de Outubro de 2017, 22:14
- */
-
 #ifndef PRODUTOS_H
 #define PRODUTOS_H
 
-#ifdef __cplusplus
-extern "C" {
+#include <string.h>
+#include <mysql/mysql.h>
+#include "diretivas_conexao.h"
+#include "gerais.h"
+
+
+typedef struct {
+	int id, qtdEmEstoque, dataCadastro;
+	char nome[100], fornecedor[100], descricao[100];
+    float precoCompra, precoVenda;
+} Produto;
+
+
+/**
+ * Lista todos os produtos cadastrados no banco de dados
+ */
+void mostraMenuPrincipal();//OK
+
+/**
+ * Apresenta o cadastro de produto
+ */
+void mostrarCadastroProduto();//OK
+
+/**
+ * Função para inserção de um produto no banco de dados
+ */
+void insereProduto(Produto p);//OK
+
+
+/**
+ * Edita produto cadastrados no banco de dados
+ */
+void alteraProduto(int id, char vetorCampo[], char string[], char tipoDoCampo);
+
+void mostraProdutos();
+void mostraProduto(int id);
+void mostraAlteracaoProduto();
+void leString(char *s, int tam);
+int checaSeExiste(int id, char *tabela);
+void mostraExclusaoProduto();
+void excluiProduto(int id);
+//layout
+void mostraCabecalhoMenu();
+void mostraLinhaMenu();
+
+
+
+
+
 #endif
-
-
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* PRODUTOS_H */
-

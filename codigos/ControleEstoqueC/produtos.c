@@ -5,7 +5,7 @@
 /**
  * Mostra os produtos cadastrados e um MENU de opções para produtos
  */
-void mostraMenuPrincipal() {
+void mostraMenuProdutos() {
 
     int opcao;
     do {
@@ -82,7 +82,7 @@ void insereProduto(Produto p) {
 
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         char sql[500];
-        snprintf(sql, 500, "INSERT INTO produtos(nome,fornecedor,precoCompra,precoVenda,descricao,qtdEmEstoque,dataCadastro) values('%s','%s',%f,%f,'%s',%d)"
+        snprintf(sql, 500, "INSERT INTO produtos(nome,fornecedor,precoCompra,precoVenda,descricao,qtdEmEstoque) values('%s','%s',%f,%f,'%s',%d)"
                 , p.nome, p.fornecedor, p.precoCompra, p.precoVenda, p.descricao, p.qtdEmEstoque);
 
         //Envia o comando e analisa a resposta
@@ -91,9 +91,11 @@ void insereProduto(Produto p) {
             printf("Produto cadastrado com sucesso\n");
         } else {
             printf("%s\n", mysql_error(&mysql));
+            getchar();
         }
     } else {
-        printf("FALHA AO CONECTAR AO BANCO DE DADOS: %s\n", mysql_error(&mysql));
+        printf("FALHA AO CONECTAR AO BANCO DE DADOS: %s \n<ENTER>", mysql_error(&mysql));
+        getchar();
     }
 }
 
@@ -108,7 +110,7 @@ void mostraProdutos() {
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
 
         //Executa o comando de consulta
-        if (mysql_query(&mysql, "SELECT id, nome, fornecedor, precoCompra, precoVenda, descricao, qtdEmEstoque, dataCadastro FROM produtos ORDER BY nome") == 0) {
+        if (mysql_query(&mysql, "SELECT id, nome, fornecedor, precoCompra, precoVenda, descricao, qtdEmEstoque, dataCadastro, dataModificacao FROM produtos ORDER BY nome") == 0) {
 
             //Obtém o resultado
             MYSQL_RES *resultado = mysql_store_result(&mysql);
@@ -121,13 +123,13 @@ void mostraProdutos() {
 
                 //Obtém cada coluna na órdem
                 int id = atoi(linha[0]), qtdEmEstoque = atoi(linha[6]), i, j;
-                char *nome = linha[1], *fornecedor = linha[2], *descricao = linha[5], *dataCadastro = linha[7];
+                char *nome = linha[1], *fornecedor = linha[2], *descricao = linha[5], *dataCadastro = linha[7], *dataModificacao = linha[8];
 
                 float precoCompra = atof(linha[3]), precoVenda = atof(linha[4]);
 
                 //Imprime cada linha
-                printf("|%4d|%-22s|%-16s|R$%-12.2f|R$%-12.2f|%-40s|%-12d| %-7s |\n",
-                        id, nome, fornecedor, precoCompra, precoVenda, descricao, qtdEmEstoque, dataCadastro);
+                printf("| %2d | %-22s | %-16s|   R$%-10.2f|   R$%-10.2f| %-25s|     %-5d  | %-7s | %-7s |\n",
+                        id, nome, fornecedor, precoCompra, precoVenda, descricao, qtdEmEstoque, dataCadastro, dataModificacao);
             }
             mostraLinhaMenu();
 
@@ -165,12 +167,12 @@ void mostraProduto(int id) { //por id
 
                 //Obtém cada coluna na ordem
                 int id = atoi(linha[0]), qtdEmEstoque = atoi(linha[6]), i, j;
-                char *nome = linha[1], *fornecedor = linha[2], *descricao = linha[5], *dataCadastro = linha[7];
+                char *nome = linha[1], *fornecedor = linha[2], *descricao = linha[5], *dataCadastro = linha[7], *dataModificacao = linha[8];
                 float precoCompra = atof(linha[3]), precoVenda = atof(linha[4]);
 
                 //Imprime cada linha
-                printf("|%4d|%-22s|%-16s|R$%-12.2f|R$%-12.2f|%-40s|%-12d| %-7s |\n",
-                        id, nome, fornecedor, precoCompra, precoVenda, descricao, qtdEmEstoque, dataCadastro);
+                printf("| %2d | %-22s | %-16s|   R$%-10.2f|   R$%-10.2f| %-25s|     %-5d  | %-7s | %-7s |\n",
+                        id, nome, fornecedor, precoCompra, precoVenda, descricao, qtdEmEstoque, dataCadastro, dataModificacao);
             }
             mostraLinhaMenu();
 
@@ -179,13 +181,16 @@ void mostraProduto(int id) { //por id
             mysql_close(&mysql);
         } else {
             printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+            getchar();
         }
     } else {
-        printf("FALHA AO CONECTAR AO BANCO DE DADOS: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+        printf("FALHA AO CONECTAR AO BANCO DE DADOS: %s <ENTER> \n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+        getchar();
     }
 }
 
 /**
+ * Altera um produto, recebe id, campo, novo conteúdo do campo e o tipo
  */
 void alteraProduto(int id, char campo[], char string[], char tipoDoCampo) {
     Produto p;
@@ -197,8 +202,8 @@ void alteraProduto(int id, char campo[], char string[], char tipoDoCampo) {
         //Cria o comando SQL para envio
         char sql[500];
 
-        if (tipoDoCampo == 's')snprintf(sql, 500, "UPDATE produtos SET %s = '%s',dataCadastro = NOW() WHERE id=%d", campo, string, id);
-        else snprintf(sql, 500, "UPDATE produtos SET %s = %s,dataCadastro = NOW() WHERE id=%d", campo, string, id);
+        if (tipoDoCampo == 's')snprintf(sql, 500, "UPDATE produtos SET %s = '%s', dataModificacao = NOW() WHERE id=%d", campo, string, id);
+        else snprintf(sql, 500, "UPDATE produtos SET %s = %s, dataModificacao = NOW() WHERE id=%d", campo, string, id);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0) {
@@ -208,9 +213,11 @@ void alteraProduto(int id, char campo[], char string[], char tipoDoCampo) {
             getchar();
         } else {
             printf("%s\n", mysql_error(&mysql));
+            getchar();
         }
     } else {
         printf("Falha na conexão: %s\n", mysql_error(&mysql));
+        getchar();
     }
 
 
@@ -296,7 +303,8 @@ void mostraAlteracaoProduto() {
     } while (opcao != 0);
 }
 
-int checaSeExiste(int id, char *tabela) {//retorna a quantidade de produtos com esse id.
+//retorna a quantidade de produtos com esse id.
+int checaSeExiste(int id, char *tabela) {
 
     MYSQL mysql;
     mysql_init(&mysql);
@@ -349,7 +357,8 @@ void mostraExclusaoProduto() {//mostra opção de exclusão
     }
 }
 
-void excluiProduto(int id) {//Deleta um produto pelo ID
+//Deleta um produto pelo ID
+void excluiProduto(int id) {
 
     MYSQL mysql;
     mysql_init(&mysql);
@@ -378,12 +387,12 @@ void excluiProduto(int id) {//Deleta um produto pelo ID
 void mostraCabecalhoMenu() {
     limparTela();
     mostraLinhaMenu();
-    printf("|                                                                    PRODUTO                                                                           |\n");
+    printf("|                                                                 PRODUTOS                                                                                          |\n");
     mostraLinhaMenu();
-    printf("| ID |         NOME         |    FORNECEDOR  | PREÇO/COMPRA | PREÇO/VENDA  |             DESCRIÇÃO                  | EM ESTOQUE | DATA DE MODIFICAÇÃO |\n");
+    printf("| ID |         NOME           |    FORNECEDOR   | PREÇO/COMPRA  |  PREÇO/VENDA  |          DESCRIÇÃO       | EM ESTOQUE |    DATA DE CADASTRO | DATA DE MODIFICAÇÃO |\n");
     mostraLinhaMenu();
 }
 
 void mostraLinhaMenu() {
-    printf("|------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
+    printf("|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
 }

@@ -1,6 +1,7 @@
 
 #include "funcionarios.h"
 
+//Andressa Viana
 void mostrarListagemFuncionarios() {
     int opcao;
 
@@ -44,11 +45,11 @@ void mostrarListagemFuncionarios() {
 
                     //Imprime cada linha
 
-                    printf("|  %d   | %-10s |%-4s  |%-19s|%-10s|%-7s|%-8s | %-13s  | %-10s  | %-10s| %-14s |%-12s|\n",
+                    printf("|  %d   | %-10s |%-4s  |%-19s|%-10s|%-7s|%-8s | %-13s  | %-10s  | %-10s| %-14s |%-10s|\n",
                             id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
 
                 }
- 
+
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
@@ -80,7 +81,7 @@ void mostrarListagemFuncionarios() {
         }
     } while (opcao != 4);
 }
-
+//Andressa Viana
 void mostrarCadastroFuncionario() {
     Funcionarios f;
 
@@ -169,82 +170,7 @@ void mostrarCadastroFuncionario() {
     }
 }
 
-void inserirFuncionario(Funcionarios f) {
-    MYSQL mysql;
-    mysql_init(&mysql);
-
-    //Conecta no banco de dados
-    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
-        //Cria o comando SQL para envio
-        char sql[2000];
-
-        snprintf(sql, 2000, "INSERT INTO funcionarios(nome, sexo, dataNascimento,endereco, cidade, cep,telefone, cpf, rg, profissao, pisPasep)"
-                " values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"
-                , f.nome, f.sexo, f.datanascimento, f.endereco, f.cidade, f.cep, f.telefone, f.cpf, f.rg, f.profissao, f.pispasep);
-
-        //Envia o comando e analisa a resposta
-        if (mysql_query(&mysql, sql) == 0) {
-            mysql_close(&mysql); //Encerra a conexão
-
-            printf("Funcionario cadastrado com sucesso\n"); //Exibe mensagem de sucesso
-        } else {
-            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
-        }
-    } else {
-        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
-    }
-}
-
-void alterarFuncionario(Funcionarios f) {
-    //Inicializa a variável de conexão com o MySQL
-    MYSQL mysql;
-    mysql_init(&mysql);
-
-    //Conecta no banco de dados
-    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
-        //Cria o comando SQL para envio
-        char sql[2000];
-        snprintf(sql, 2000, "update funcionarios set pisPasep = '%s',profissao = '%s',rg = '%s',cpf = '%s',telefone = '%s',cep = '%s',cidade = '%s',endereco = '%s',dataNascimento = '%s', sexo = '%s', nome = '%s' where id = %d",
-                f.pispasep, f.profissao, f.rg, f.cpf, f.telefone, f.cep, f.cidade, f.endereco, f.datanascimento, f.sexo, f.nome, f.id);
-
-        //Envia o comando e analisa a resposta
-        if (mysql_query(&mysql, sql) == 0) {
-            mysql_close(&mysql); //Encerra a conexão
-
-            printf("funcionario alterado com sucesso\n"); //Exibe mensagem de sucesso
-        } else {
-            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
-        }
-    } else {
-        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
-    }
-}
-
-void ExclusaoFuncionario(int codigo) {
-    //Inicializa a variável de conexão com o MySQL
-    MYSQL mysql;
-    mysql_init(&mysql);
-
-    //Conecta no banco de dados
-    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
-        //Cria o comando SQL para envio
-        char sql[500];
-        snprintf(sql, 500, "delete from funcionarios where id = %d", codigo);
-
-        //Envia o comando e analisa a resposta
-        if (mysql_query(&mysql, sql) == 0) {
-            mysql_close(&mysql); //Encerra a conexão
-
-            printf("Funcionario excluído com sucesso\n"); //Exibe mensagem de sucesso
-        } else {
-            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
-        }
-    } else {
-        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
-    }
-
-}
-
+//Bruno Qualhato
 Funcionarios* selecionarFuncionario(int codigo) {
     //Cria a variável de conexão com o MySQL
     MYSQL mysql;
@@ -306,7 +232,7 @@ Funcionarios* selecionarFuncionario(int codigo) {
         printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
     }
 }
-
+//Bruno Qualhato
 void mostrarAlteracaoFuncionario() {
     int codigo;
 
@@ -450,6 +376,84 @@ void mostrarAlteracaoFuncionario() {
 
 }
 
+//Denis Vitoriano
+void inserirFuncionario(Funcionarios f) {
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
+        //Cria o comando SQL para envio
+        char sql[2000];
+
+        snprintf(sql, 2000, "INSERT INTO funcionarios(nome, sexo, dataNascimento,endereco, cidade, cep,telefone, cpf, rg, profissao, pisPasep)"
+                " values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"
+                , f.nome, f.sexo, f.datanascimento, f.endereco, f.cidade, f.cep, f.telefone, f.cpf, f.rg, f.profissao, f.pispasep);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0) {
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("Funcionario cadastrado com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+}
+//Denis Vitoriano
+void alterarFuncionario(Funcionarios f) {
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
+        //Cria o comando SQL para envio
+        char sql[2000];
+        snprintf(sql, 2000, "update funcionarios set pisPasep = '%s',profissao = '%s',rg = '%s',cpf = '%s',telefone = '%s',cep = '%s',cidade = '%s',endereco = '%s',dataNascimento = '%s', sexo = '%s', nome = '%s' where id = %d",
+                f.pispasep, f.profissao, f.rg, f.cpf, f.telefone, f.cep, f.cidade, f.endereco, f.datanascimento, f.sexo, f.nome, f.id);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0) {
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("funcionario alterado com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+}
+
+//Luana Queiros
+void ExclusaoFuncionario(int codigo) {
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "delete from funcionarios where id = %d", codigo);
+
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0) {
+            mysql_close(&mysql); //Encerra a conexão
+
+            printf("Funcionario excluído com sucesso\n"); //Exibe mensagem de sucesso
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+
+}
+//Luana Queiros
 void mostrarExclusaoFuncionario() {
     int codigo;
     printf("Digite o código do funcionario que deseja excluir: ");
@@ -459,3 +463,5 @@ void mostrarExclusaoFuncionario() {
     ExclusaoFuncionario(codigo);
     getchar();
 }
+
+

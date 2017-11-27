@@ -50,7 +50,7 @@ void mostrarListagemFuncionarios() {
 
                 }
 
-                //Libera os resultado e fecha a conexão
+                //Libera os resultado e fecha a conexão 
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
             } else {

@@ -6,6 +6,7 @@
 #include "gerais.h"
 #include "funcionarios.h"
 #include "fornecedores.h"
+#include "produtos.h"
 
 /**
  * Mostra o menu principal do sistema
@@ -37,9 +38,10 @@ void mostrarMenuPrincipal(){
         switch (opcao){
             case 1: mostrarListagemPaises(); break;
             case 2: mostrarListagemEstados(); break;
-            case 3: mostrarListagemCidades();break;
-            case 4: mostrarListagemClientes(); break;
-            case 6: MenuFornecedores();break;
+            case 3: mostrarListagemCidades(); break;
+            case 4: mostrarCadastroCliente(); break;
+            case 5: mostraMenuProdutos(); break;
+            case 6: MenuFornecedores(); break;
             case 8: mostrarListagemFuncionarios(); break;
             case 9: 
                 printf("Até a próxima vez!\n");

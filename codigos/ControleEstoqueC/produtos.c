@@ -304,6 +304,7 @@ void mostraAlteracaoProduto() {
 }
 
 //retorna a quantidade de produtos com esse id.
+
 int checaSeExiste(int id, char *tabela) {
 
     MYSQL mysql;
@@ -336,28 +337,34 @@ void mostraExclusaoProduto() {//mostra opção de exclusão
     mostraProdutos();
 
     Produto p;
-    printf("DIGITE O ID DESEJADO: ");
+    printf("DIGITE O ID DESEJADO [Ou 0 para sair]: ");
     scanf("%d", &p.id);
-    while (!checaSeExiste(p.id, "produtos")) {//obriga o usuário a digitar um id válido
-        limparTela();
-        mostraProdutos();
+    if (p.id == 0) {
+        mostraMenuProdutos();
+    } else {
+        while (!checaSeExiste(p.id, "produtos")) {//obriga o usuário a digitar um id válido
+            limparTela();
+            mostraProdutos();
+            getchar();
+            printf("\n [PRODUTO INEXISTENTE]\nDigite o [ID] Novamente ! : ");
+            scanf("%d", &p.id);
+        }
+
+        mostraProduto(p.id);
+        char opcao;
+        printf("\nDESEJA REALMENTE EXCLUIR O PRODUTO? <s/n>");
         getchar();
-        printf("\n [PRODUTO INEXISTENTE]\nDigite o [ID] Novamente! : ");
-        scanf("%d", &p.id);
+        scanf("%c", &opcao);
+
+        if (opcao == 's' || opcao == 'S') {
+            excluiProduto(p.id);
+        }
     }
 
-    mostraProduto(p.id);
-    char opcao;
-    printf("\nDESEJA REALMENTE EXCLUIR O PRODUTO? <s/n>");
-    getchar();
-    scanf("%c", &opcao);
-
-    if (opcao == 's' || opcao == 'S') {
-        excluiProduto(p.id);
-    }
 }
 
 //Deleta um produto pelo ID
+
 void excluiProduto(int id) {
 
     MYSQL mysql;

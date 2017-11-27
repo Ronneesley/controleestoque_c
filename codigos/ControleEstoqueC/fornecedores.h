@@ -22,6 +22,7 @@ typedef struct {
     int id;
     char nomeFornecedor[100];
     ulong CNPJ;
+    char endereco[150];
 } Fornecedores;
 
 // Menu Principal do Cadastro de  Fornecedores
@@ -65,6 +66,9 @@ void AlterarNomeFornecedores(Fornecedores f);
 
 // Função para alterar o Cnpj do Fornecedor no Banco de Dados.
 void AlterarCnpjFornecedores(Fornecedores f);
+
+// Função para alterar o Endereço do Fornecedor no Banco de Dados.
+void AlterarEndFornecedores(Fornecedores f);
 
 // Mostra as informações do fornecedor a ser alterado antes de executar a alteração
 Fornecedores* SelecionarFornecedores(int codigo);

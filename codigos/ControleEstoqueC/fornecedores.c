@@ -10,7 +10,7 @@
 //Borda Padrão dos Menus
 void BordaPadrao(){
     
-    printf("||====================================================================||\n");
+    printf("||==============================================================================||\n");
 }
 
 
@@ -23,7 +23,7 @@ void MenuFornecedores(){
                                 
         limparTela();
         BordaPadrao();
-        printf("||\t\t\tO QUE DESEJA FAZER?\t\t\t      ||\n");
+        printf("||\t\t\tO QUE DESEJA FAZER?\t\t\t\t        ||\n");
         BordaPadrao();
         printf("\n");
         printf("1) Consultar Fornecedores\n");
@@ -55,7 +55,7 @@ void ConsultarFornecedores(){
     do{
         limparTela();
         BordaPadrao();
-        printf("||\t\t\tCONSULTAR FORNECEDORES\t\t\t      ||\n");
+        printf("||\t\t\tCONSULTAR FORNECEDORES\t\t\t\t        ||\n");
         BordaPadrao(); 
         printf("\n");
         printf("1) Por Nome\n");
@@ -81,9 +81,9 @@ void consultarNome(){
     
     limparTela();
     BordaPadrao();
-    printf("||\t\tCONSULTA FORNECEDORES POR ORDEM DE NOME\t\t      ||\n");
+    printf("||\t\tCONSULTA FORNECEDORES POR ORDEM DE NOME\t\t\t        ||\n");
     BordaPadrao();
-    printf("||CÓDIGO | RAZÃO SOCIAL              | CNPJ                  ||\n");
+    printf("||CÓDIGO | RAZÃO SOCIAL              | CNPJ           |ENDEREÇO                 ||\n");
     BordaPadrao();
 
     //Cria a variável de conexão com o MySQL
@@ -94,7 +94,7 @@ void consultarNome(){
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
         
         //Executa o comando de consulta
-        if (mysql_query(&mysql, "select idFornecedor, nomeFornecedor, CNPJ from fornecedores order by nomeFornecedor") == 0){
+        if (mysql_query(&mysql, "select idFornecedor, nomeFornecedor, CNPJ, endFornecedor from fornecedores order by nomeFornecedor") == 0){
             
             //Obtém o resultado
             MYSQL_RES *resultado = mysql_store_result(&mysql);
@@ -107,9 +107,10 @@ void consultarNome(){
                 int id = atoi(linha[0]);
                 char *nome = linha[1];
                 ulong cnpj = atoll(linha[2]);
+                char *end = linha[3]; 
 
                 //Imprime cada linha
-                printf("|| %5d | %-25s | %-14llu ||\n", id, nome, cnpj);
+                printf("|| %5d | %-25s | %-14llu |%-24s ||\n", id, nome, cnpj, end);
             }
 
             //Libera os resultado e fecha a conexão
@@ -134,9 +135,9 @@ void consultarId(){
     
     limparTela();
     BordaPadrao();
-    printf("||\t\tCONSULTA FORNECEDORES POR ORDEM DE ID\t\t      ||\n");
+    printf("||\t\tCONSULTA FORNECEDORES POR ORDEM DE ID\t\t\t        ||\n");
     BordaPadrao();
-    printf("||CÓDIGO | RAZÃO SOCIAL              | CNPJ                  ||\n");
+    printf("||CÓDIGO | RAZÃO SOCIAL              | CNPJ           |ENDEREÇO                 ||\n");
     BordaPadrao();
 
     //Cria a variável de conexão com o MySQL
@@ -147,7 +148,7 @@ void consultarId(){
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
         
         //Executa o comando de consulta
-        if (mysql_query(&mysql, "select idFornecedor, nomeFornecedor, CNPJ from fornecedores order by idFornecedor") == 0){
+        if (mysql_query(&mysql, "select idFornecedor, nomeFornecedor, CNPJ, endFornecedor from fornecedores order by idFornecedor") == 0){
             
             //Obtém o resultado
             MYSQL_RES *resultado = mysql_store_result(&mysql);
@@ -160,9 +161,10 @@ void consultarId(){
                 int id = atoi(linha[0]);
                 char *nome = linha[1];
                 ulong cnpj = atoll(linha[2]);
+                char *end = linha[3];
 
                 //Imprime cada linha
-                printf("|| %5d | %-25s | %-14llu ||\n", id, nome, cnpj);
+                printf("|| %5d | %-25s | %-14llu |%-24s ||\n", id, nome, cnpj, end);
             }
 
             //Libera os resultado e fecha a conexão
@@ -190,7 +192,7 @@ void CadastrarFornecedor() {
 
     limparTela();
     BordaPadrao();
-    printf("| CADASTRO DE FORNECEDORES                                            |\n");
+    printf("| CADASTRO DE FORNECEDORES                                                       |\n");
     BordaPadrao();
 
     printf("NOME DO FORNECEDOR: ");
@@ -201,6 +203,13 @@ void CadastrarFornecedor() {
     printf("CNPJ DO FORNECEDOR: ");
     scanf("%llu", &f.CNPJ);
     getchar(); 
+    printf("\n");
+    
+    printf("ENDEREÇO DO FORNECEDOR: ");
+    fgets(f.endereco, sizeof(f.endereco), stdin);
+    int tamanhoend = strlen(f.endereco); f.endereco[tamanhoend - 1] = '\0'; //Retira o \n do final da string e coloca \0
+    
+    
     BordaPadrao();
    
     printf("Deseja realmente cadastrar o fornecedor? (S/N) ");
@@ -224,7 +233,7 @@ void inserirFornecedores(Fornecedores f){
         
         //Cria o comando SQL para envio
         char sql[500];
-        snprintf(sql, 500, "insert into fornecedores(nomeFornecedor, CNPJ) values('%s', '%llu')", f.nomeFornecedor, f.CNPJ);
+        snprintf(sql, 500, "insert into fornecedores(nomeFornecedor, CNPJ, endFornecedor) values('%s', '%llu', '%s')", f.nomeFornecedor, f.CNPJ, f.endereco);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0){
@@ -252,7 +261,7 @@ void MenuAlteracao(){
     do{
         limparTela();
         BordaPadrao();
-        printf("||\t\t\tMENU ALTERAÇÃO\t\t\t\t      ||\n");
+        printf("||\t\t\tMENU ALTERAÇÃO\t\t\t\t\t        ||\n");
         BordaPadrao(); 
         printf("\n");
         printf("1) Consultar Fornecedores\n");
@@ -277,7 +286,7 @@ void MostrarAlteracaoFornecedores(){
     int codigo;
     limparTela();
     BordaPadrao();
-    printf("||\t\t\tALTERARAÇÃO DE FORNECEDORES\t\t      ||\n");
+    printf("||\t\t\tALTERARAÇÃO DE FORNECEDORES\t\t\t        ||\n");
     BordaPadrao();
     printf("\n");
     printf("Digite o código do Fornecedor que deseja alterar: ");
@@ -288,18 +297,19 @@ void MostrarAlteracaoFornecedores(){
 
     limparTela();
     BordaPadrao();
-    printf("||\t\t\tALTERARAÇÃO DE FORNECEDORES\t\t      ||\n");
+    printf("||\t\t\tALTERARAÇÃO DE FORNECEDORES\t\t\t        ||\n");
     BordaPadrao();
     printf("|| Id: %d\n", f->id);
     printf("|| Nome: %s\n", f->nomeFornecedor);
     printf("|| CNPJ: %llu\n", f->CNPJ);
+    printf("|| Endereço: %s\n", f->endereco);
     BordaPadrao();
     printf("\n");
     
     int codigoAlterar;
     
     // Escolha do campo a ser  alterado no cadastro de Fornecedores
-    printf("Digite: 1)Para Alterar o Nome - 2)Para Alterar o CNPJ: ");
+    printf("Digite: 1)Para Alterar o Nome - 2)Para Alterar o CNPJ - 3)Para alterar endereço: ");
     scanf("%d", &codigoAlterar);getchar();
     printf("\n");
     
@@ -331,7 +341,23 @@ void MostrarAlteracaoFornecedores(){
             AlterarCnpjFornecedores(*f);
         }
     }
+    // Alteração do campo endereço do cadastro de fornecedores
+    if (codigoAlterar == 3){
+        printf("Digite o novo endereço do fornecedor: ");
+        char end[150];
+        fgets(end, sizeof(end), stdin);
+        int tamanhoend = strlen(end); end[tamanhoend - 1] = '\0'; //Retira o \n do final da string e coloca \0
+        strncpy(f->endereco, end, 150);
+                        
+        printf("Deseja realmente salvar as alterações? (S/N) ");
+        char resposta = getchar(); getchar();
+
+        if (resposta == 'S' || resposta == 's'){
+            AlterarEndFornecedores(*f);
+        }
+    }
     
+    // Desalocar os valores incluídos com a função malloc
     free(f);
    
 }
@@ -347,7 +373,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
     //Efetua a conexão
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
         char sql[500];
-        snprintf(sql, 500, "select idFornecedor, nomeFornecedor, CNPJ from fornecedores where idFornecedor = %d", codigo);
+        snprintf(sql, 500, "select idFornecedor, nomeFornecedor, CNPJ, endFornecedor from fornecedores where idFornecedor = %d", codigo);
 
         //Executa o comando de consulta
         if (mysql_query(&mysql, sql) == 0){
@@ -360,6 +386,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
             int id; 
             char *nome;
             ulong cnpj;
+            char *end;
             
             
             if ( (linha = mysql_fetch_row(resultado)) ){
@@ -367,6 +394,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
                 //Obtém cada coluna na órdem
                 id = atoi(linha[0]);
                 cnpj = atoll(linha[2]);
+               
 
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
@@ -375,6 +403,7 @@ Fornecedores* SelecionarFornecedores(int codigo){
                 // Alocação Dinamica de Memória.
                 Fornecedores *f = (Fornecedores *) malloc(sizeof(Fornecedores));
                 strncpy(f->nomeFornecedor, linha[1], 100);
+                strncpy(f->endereco, linha[3], 150);
                 f->CNPJ = cnpj;
                 f->id = id;
 
@@ -456,6 +485,36 @@ void AlterarCnpjFornecedores(Fornecedores f){
     getchar();
 }
 
+// Função para alterar o Nome do Fornecedor no Banco de Dados.
+void AlterarEndFornecedores(Fornecedores f){
+    
+    //Inicializa a variável de conexão com o MySQL
+    MYSQL mysql;
+    mysql_init(&mysql);
+
+    //Conecta no banco de dados
+    if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)){
+        
+        //Cria o comando SQL para envio
+        char sql[500];
+        snprintf(sql, 500, "update fornecedores set endFornecedor = '%s' where idFornecedor = %d", f.endereco, f.id);
+        
+        //Envia o comando e analisa a resposta
+        if (mysql_query(&mysql, sql) == 0){
+            mysql_close(&mysql); //Encerra a conexão
+            
+            printf("\n");
+            printf("----- Fornecedor alterado com sucesso -----\n\n"); //Exibe mensagem de sucesso
+            printf("Pressione a tecla <ENTER> para continuar");
+        } else {
+            printf("%s\n", mysql_error(&mysql)); //Exibe a mensagem de erro
+        }
+    } else {
+        printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
+    }
+    getchar();
+}
+
 // Mostra Sub Menu da opção de exclusão
 void MenuExclusao(){
     
@@ -464,7 +523,7 @@ void MenuExclusao(){
     do{
         limparTela();
         BordaPadrao();
-        printf("||\t\t\tMENU EXCLUSÃO\t\t\t\t      ||\n");
+        printf("||\t\t\tMENU EXCLUSÃO\t\t\t\t\t        ||\n");
         BordaPadrao(); 
         printf("\n");
         printf("1) Consultar Fornecedores\n");
@@ -488,9 +547,9 @@ void ConsultarPadrao(){
 
     limparTela();
     BordaPadrao();
-    printf("||\t\tCONSULTA FORNECEDORES\t\t\t\t      ||\n");
+    printf("||\t\tCONSULTA FORNECEDORES\t\t\t\t\t        ||\n");
     BordaPadrao();
-    printf("||CÓDIGO | RAZÃO SOCIAL\t\t\t\t\t\t      ||\n");
+    printf("||CÓDIGO | RAZÃO SOCIAL\t\t\t\t\t\t\t        ||\n");
     BordaPadrao();
 
     //Cria a variável de conexão com o MySQL
@@ -515,7 +574,7 @@ void ConsultarPadrao(){
                 char *nome = linha[1];
 
                 //Imprime cada linha
-                printf("|| %5d | %-58s ||\n", id, nome);
+                printf("|| %5d | %-68s ||\n", id, nome);
             }
 
             //Libera os resultado e fecha a conexão

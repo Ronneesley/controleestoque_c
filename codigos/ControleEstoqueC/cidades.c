@@ -67,7 +67,6 @@ void mostrarListagemCidades(){
                 break;
             default:
                 printf("Opção invalida!\n");
-                break;
         }
     }while (opcao != 4);
    
@@ -234,6 +233,7 @@ void alterarCidade(Cidade c){
     } else {
         printf("Falha ao conectar-se com o banco de dados: %s\n", mysql_error(&mysql));
     }
+    
 }
 
 Cidade* selecionarCidade(int id){
@@ -318,7 +318,7 @@ void mostrarAlteracaoCidade(){
     if (resposta == 'S' || resposta == 's'){
         alterarCidade(*c);
     }
-
+    free(c);
     getchar();
 }
 

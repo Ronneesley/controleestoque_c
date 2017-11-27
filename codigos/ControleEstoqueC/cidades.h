@@ -20,7 +20,6 @@
 typedef struct {
     int id;
     int idEstado;
-    
     char nome[100];
 }Cidade;
 

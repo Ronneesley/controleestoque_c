@@ -45,12 +45,12 @@ void mostrarListagemFuncionarios() {
 
                     //Imprime cada linha
 
-                    printf("|  %d   | %-10s |%-4s  |%-19s|%-10s|%-7s|%-8s | %-13s  | %-10s  | %-10s| %-14s |%-10s|\n",
+                    printf("|  %d   | %-10s |%-4s  |%-19s|%-10s|%-7s|%-8s | %-13s  | %-10s  | %-10s| %-14s |%-9s|\n",
                             id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
 
                 }
 
-                //Libera os resultado e fecha a conexão
+                //Libera os resultado e fecha a conexão 
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
             } else {
@@ -90,7 +90,10 @@ void mostrarCadastroFuncionario() {
     printf("|              CADASTRO DE FUNCIONARIOS                         |\n");
     printf("|---------------------------------------------------------------|\n");
 
-
+   
+   
+     //fgets == Lê caracteres de fluxo e armazena-os como uma seqüência  até (num-1)
+     //strlen == calcula o comprimento da string str, mas não incluindo o caractere nulo de término.
     printf("| INFORME O NOME DO FUNCIONARIO: ");
     fgets(f.nome, sizeof (f.nome), stdin);
     int tamanho = strlen(f.nome);
@@ -260,13 +263,21 @@ void mostrarAlteracaoFuncionario() {
     printf("| Profissão:  %s\n", f->profissao);
     printf("| PisPasep:  %s\n", f->pispasep);
     printf("|-------------------------------------------------------------------|\n");
-
-
+    
+    /*
+     *strncpy ==  copia até n caracteres da string apontada.
+     *Em um caso em que o comprimento de src seja menor que o de n
+     *o restante será preenchido com bytes nulos
+     */
+   
+     //fgets == Lê caracteres de fluxo e armazena-os como uma seqüência  até (num-1)
+    
+     //strlen == calcula o comprimento da string str, mas não incluindo o caractere nulo de término.
     printf("|--------------------------------------------------------------------|\n");
     printf("| Digite o novo nome do Funcionario: ");
     char nome[100];
     fgets(nome, sizeof (nome), stdin);
-    int tamanho = strlen(nome);
+    int tamanho = strlen(nome); 
     nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
     strncpy(f->nome, nome, 100);
     printf("|--------------------------------------------------------------------|\n");

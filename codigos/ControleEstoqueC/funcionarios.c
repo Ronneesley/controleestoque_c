@@ -6,18 +6,18 @@ void mostrarListagemFuncionarios() {
 
     do {
         limparTela();
-        printf("|------------------------------------------------------------------------------------------------------------|\n");
-        printf("|                                          LISTAGEM DE FUNCIONARIOS                                          |\n");
-        printf("|------------------------------------------------------------------------------------------------------------|\n");
-        printf("|  ID  |  NOME  | SEXO | DATA DE NASCIMENTO | ENDEREÇO | CIDADE | CEP | TELEFONE | CPF |RG | PROFISSAO | PIS/PASEP |\n");
-        printf("|------------------------------------------------------------------------------------------------------------|\n");
+        printf("|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
+        printf("|                                                             LISTAGEM DE FUNCIONARIOS                                                                    |\n");
+        printf("|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
+        printf("|  ID  |NOME            | SEXO |DATA DE NASCIMENTO |ENDEREÇO   |CIDADE |CEP      | TELEFONE       | CPF         |RG         | PROFISSAO      | PIS/PASEP  |\n");
+        printf("|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
         MYSQL mysql;
         mysql_init(&mysql);
 
         if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
             //Executa o comando de consulta
 
-            if (mysql_query(&mysql, "SELECT  idFuncionario, NomeFuncionario, SexoFuncionario, DataNascimentoFuncionario,EnderecoFuncionario, cidadeFuncionario, cepFuncionario,telefoneFuncionario, cpfFuncionario,rgFuncionario,profissaoFuncionario, pisPasepFuncionario from funcionarios") == 0) {
+            if (mysql_query(&mysql, "SELECT  id, nome, sexo, dataNascimento, endereco, cidade, cep,telefone, cpf,rg,profissao, pisPasep from funcionarios") == 0) {
 
                 //Obtém o resultado
                 MYSQL_RES *resultado = mysql_store_result(&mysql);
@@ -26,16 +26,16 @@ void mostrarListagemFuncionarios() {
                 MYSQL_ROW linha;
                 while ((linha = mysql_fetch_row(resultado))) {
                     //Obtém cada coluna na órdem
-                    int id = atoi(linha[0]);
+                    int  id = atoi(linha[0]);
                     char *nome = linha[1];
                     char *sexo = linha[2];
                     char *datanascimento = linha[3];
                     char *endereco = linha[4];
                     char *cidade = linha[5];
-                    int cep = atoi(linha[6]);
+                    char *cep = linha[6];
                     char *telefone = linha[7];
                     char *cpf = linha[8];
-                    int rg = atoi(linha[9]);
+                    char *rg = linha[9];
                     char *profissao = linha[10];
                     char *pispasep = linha[11];
 
@@ -44,8 +44,8 @@ void mostrarListagemFuncionarios() {
 
                     //Imprime cada linha
 
-                    printf("|  %d  | %s |  %s  |    %-8s      |  %s  |  %s |%d | %s  | %s  | %d| %s |     %s     |\n",
-			id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao,pispasep);
+                    printf("|  %d   | %-10s |%-4s  |%-19s|%-10s|%-7s|%-8s | %-13s  | %-10s  | %-10s| %-14s |%-12s|\n",
+                            id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
 
                 }
 
@@ -59,12 +59,12 @@ void mostrarListagemFuncionarios() {
             printf("Falha ao conectar no banco de dados: %s\n", mysql_error(&mysql)); //Exibe a mensagem de erro ao conectar 
         }
 
-        printf("|------------------------------------------------------------------------------------------------------------|\n");
-        printf("\nO que deseja fazer?\n");
-        printf("1) Cadastrar um novo Funcionario\n");
-        printf("2) Alterar um Funcionario\n");
-        printf("3) Excluir um Funcionario\n");
-        printf("4) Voltar ao menu principal\n");
+        printf("|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
+        printf("|O que deseja fazer?\n");
+        printf("|1) Cadastrar um novo Funcionario\n");
+        printf("|2) Alterar um Funcionario\n");
+        printf("|3) Excluir um Funcionario\n");
+        printf("|4) Voltar ao menu principal\n\n");
         printf("Digite a opção desejada: ");
         scanf("%d", &opcao);
         getchar();
@@ -101,24 +101,29 @@ void mostrarCadastroFuncionario() {
     tamanho = strlen(f.sexo);
     f.sexo[tamanho - 1] = '\0';
 
+
     printf("| INFORME A  DATA DE NASCIMENTO (XX/XX/XXXX): ");
     fgets(f.datanascimento, sizeof (f.datanascimento), stdin);
     tamanho = strlen(f.datanascimento);
     f.datanascimento[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
 
-    printf("|INFORME O ENDEREÇO: ");
+
+    printf("| INFORME O ENDEREÇO: ");
     fgets(f.endereco, sizeof (f.endereco), stdin);
     tamanho = strlen(f.endereco);
     f.endereco[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0	
 
+
     printf("| INFORME A CIDADE: ");
-    fgets(f.Cidade, sizeof (f.Cidade), stdin);
-    tamanho = strlen(f.Cidade);
-    f.Cidade[tamanho - 1] = '\0';
+    fgets(f.cidade, sizeof (f.cidade), stdin);
+    tamanho = strlen(f.cidade);
+    f.cidade[tamanho - 1] = '\0';
+
 
     printf("| INFORME O CEP XXXXX-XXX: ");
-    scanf("%d", &f.cep);
-    getchar();
+    fgets(f.cep, sizeof (f.cep), stdin);
+    tamanho = strlen(f.cep);
+    f.cep[tamanho - 1] = '\0';
 
 
     printf("| INFORME O TELEFONE (XX) XXXXX-XXXX: ");
@@ -127,27 +132,29 @@ void mostrarCadastroFuncionario() {
     f.telefone[tamanho - 1] = '\0';
 
 
-
     printf("| INFORME O CPF : ");
     fgets(f.cpf, sizeof (f.cpf), stdin);
     tamanho = strlen(f.cpf);
     f.cpf[tamanho - 1] = '\0';
 
+
     printf("| INFORME O RG XXXXXXX: ");
-    scanf("%d", &f.rg);
-    getchar();
+    fgets(f.rg, sizeof (f.rg), stdin);
+    tamanho = strlen(f.rg);
+    f.rg[tamanho - 1] = '\0';
+
+
 
     printf("| INFORME A PROFISSÃO: ");
     fgets(f.profissao, sizeof (f.profissao), stdin);
     tamanho = strlen(f.profissao);
     f.profissao[tamanho - 1] = '\0';
 
+
     printf("| INFORME O PIS/PASEP: ");
     fgets(f.pispasep, sizeof (f.pispasep), stdin);
     tamanho = strlen(f.pispasep);
     f.pispasep[tamanho - 1] = '\0';
-
-
     printf("|--------------------------------------------------------------|\n");
 
     printf("Deseja realmente cadastrar esse funcionario? (S/N) ");
@@ -171,10 +178,9 @@ void inserirFuncionario(Funcionarios f) {
         //Cria o comando SQL para envio
         char sql[2000];
 
-
-        snprintf(sql, 2000, "INSERT INTO funcionarios(NomeFuncionario, SexoFuncionario, DataNascimentoFuncionario,EnderecoFuncionario, cidadeFuncionario, cepFuncionario,telefoneFuncionario, cpfFuncionario, rgFuncionario, profissaoFuncionario, pisPasepFuncionario) values('%s','%s','%s','%s','%s','%d','%s','%s','%d','%s','%s')"
-                , f.nome, f.sexo, f.datanascimento, f.endereco, f.Cidade, f.cep, f.telefone, f.cpf, f.rg, f.profissao, f.pispasep);
-
+        snprintf(sql, 2000, "INSERT INTO funcionarios(nome, sexo, dataNascimento,endereco, cidade, cep,telefone, cpf, rg, profissao, pisPasep)"
+                " values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"
+                , f.nome, f.sexo, f.datanascimento, f.endereco, f.cidade, f.cep, f.telefone, f.cpf, f.rg, f.profissao, f.pispasep);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0) {
@@ -198,9 +204,8 @@ void alterarFuncionario(Funcionarios f) {
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         //Cria o comando SQL para envio
         char sql[2000];
-nome:
-        snprintf(sql, 2000, "update funcionarios set pisPasepFuncionario = '%s',profissaoFuncionario = '%s',rgFuncionario = '%d',cpfFuncionario = '%s',telefoneFuncionario = '%s',cepFuncionario = '%d',cidadeFuncionario = '%s',EnderecoFuncionario = '%s',DataNascimentoFuncionario = '%s', SexoFuncionario = '%s', NomeFuncionario = '%s' where idFuncionario = %d",
-                f.pispasep, f.profissao, f.rg, f.cpf, f.telefone, f.cep, f.Cidade, f.endereco, f.datanascimento, f.sexo, f.nome, f.id);
+        snprintf(sql, 2000, "update funcionarios set pisPasep = '%s',profissao = '%s',rg = '%s',cpf = '%s',telefone = '%s',cep = '%s',cidade = '%s',endereco = '%s',dataNascimento = '%s', sexo = '%s', nome = '%s' where id = %d",
+                f.pispasep, f.profissao, f.rg, f.cpf, f.telefone, f.cep, f.cidade, f.endereco, f.datanascimento, f.sexo, f.nome, f.id);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0) {
@@ -224,7 +229,7 @@ void ExclusaoFuncionario(int codigo) {
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         //Cria o comando SQL para envio
         char sql[500];
-        snprintf(sql, 500, "delete from funcionarios where idFuncionario = %d", codigo);
+        snprintf(sql, 500, "delete from funcionarios where id = %d", codigo);
 
         //Envia o comando e analisa a resposta
         if (mysql_query(&mysql, sql) == 0) {
@@ -248,55 +253,45 @@ Funcionarios* selecionarFuncionario(int codigo) {
     //Efetua a conexão
     if (mysql_real_connect(&mysql, SERVIDOR_BD, USUARIO_BD, SENHA_BD, NOME_BD, PORTA_BD, NULL, 0)) {
         char sql[2000];
-        snprintf(sql, 2000, "select idFuncionario, NomeFuncionario,SexoFuncionario,DataNascimentoFuncionario,EnderecoFuncionario,cidadeFuncionario,cepFuncionario,telefoneFuncionario,cpfFuncionario,rgFuncionario,profissaoFuncionario,pisPasepFuncionario from funcionarios where idFuncionario = %d", codigo);
-
-
+        snprintf(sql, 2000, "select id, nome, sexo, dataNascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pisPasep from funcionarios where id = %d", codigo);
 
         //Executa o comando de consulta
         if (mysql_query(&mysql, sql) == 0) {
             //Obtém o resultado
             MYSQL_RES *resultado = mysql_store_result(&mysql);
-
             //Cria uma variável para guardar a linha
             MYSQL_ROW linha;
+
             int id;
-            int cep;
-
-
-            int rg;
 
             if ((linha = mysql_fetch_row(resultado))) {
                 //Obtém cada coluna na órdem
                 id = atoi(linha[0]);
-                cep = atoi(linha[6]);
 
-                rg = atoi(linha[9]);
-               
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
                 mysql_close(&mysql);
 
                 Funcionarios funcionarios;
-
                 Funcionarios *f = &funcionarios;
 
                 strncpy(f->sexo, linha[2], 100);
                 strncpy(f->datanascimento, linha[3], 100);
                 strncpy(f->endereco, linha[4], 100);
-                strncpy(f->Cidade, linha[5], 100);
+                strncpy(f->cidade, linha[5], 100);
+                strncpy(f->cep, linha[6], 100);
                 strncpy(f->telefone, linha[7], 100);
                 strncpy(f->cpf, linha[8], 100);
+                strncpy(f->rg, linha[9], 100);
                 strncpy(f->profissao, linha[10], 100);
                 strncpy(f->nome, linha[1], 100);
                 strncpy(f->pispasep, linha[11], 100);
                 f->id = id;
-                
-                f->cep = cep;
-                f->rg = rg;
-
 
                 //Imprime cada linha
+
                 return f;
+
             } else {
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
@@ -331,23 +326,25 @@ void mostrarAlteracaoFuncionario() {
     printf("| Sexo: %s\n", f->sexo);
     printf("| Data de Nascimento:  %s\n", f->datanascimento);
     printf("| Endereço:  %s\n", f->endereco);
-    printf("| Cidade :  %s\n", f->Cidade);
-    printf("| Cep:  %d\n", f->cep);
+    printf("| Cidade :  %s\n", f->cidade);
+    printf("| Cep:  %s\n", f->cep);
     printf("| Telefone:  %s\n", f->telefone);
     printf("| Cpf:  %s\n", f->cpf);
-    printf("| rg:  %d\n", f->rg);
+    printf("| rg:  %s\n", f->rg);
     printf("| Profissão:  %s\n", f->profissao);
     printf("| PisPasep:  %s\n", f->pispasep);
     printf("|-------------------------------------------------------------------|\n");
 
+
     printf("|--------------------------------------------------------------------|\n");
-    printf("Digite o novo nome do Funcionario: ");
+    printf("| Digite o novo nome do Funcionario: ");
     char nome[100];
     fgets(nome, sizeof (nome), stdin);
     int tamanho = strlen(nome);
     nome[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
     strncpy(f->nome, nome, 100);
     printf("|--------------------------------------------------------------------|\n");
+
 
     printf("| Digite o novo sexo do Funcionario: ");
     char sexo[100];
@@ -356,7 +353,6 @@ void mostrarAlteracaoFuncionario() {
     sexo[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
     strncpy(f->sexo, sexo, 100);
     printf("|--------------------------------------------------------------------|\n");
-
 
 
     printf("| Digite a nova Data de Nascimento do Funcionario: ");
@@ -368,7 +364,6 @@ void mostrarAlteracaoFuncionario() {
     printf("|--------------------------------------------------------------------|\n");
 
 
-
     printf("| Digite novo Endereço do Funcionario: ");
     char endereco[100];
     fgets(endereco, sizeof (endereco), stdin);
@@ -378,21 +373,23 @@ void mostrarAlteracaoFuncionario() {
     printf("|--------------------------------------------------------------------|\n");
 
 
-
     printf("| Digite a nova Cidade do Funcionario: ");
     char cidade[100];
     fgets(cidade, sizeof (cidade), stdin);
     tamanho = strlen(cidade);
     cidade[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->Cidade, cidade, 100);
+    strncpy(f->cidade, cidade, 100);
     printf("|--------------------------------------------------------------------|\n");
 
 
-
-    printf("| Digite o novo CEP:  ");
-    scanf("%d", &f->cep);
-    getchar();
+    printf("| Digite o novo CEP: ");
+    char cep[100];
+    fgets(cep, sizeof (cep), stdin);
+    tamanho = strlen(cep);
+    cep[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+    strncpy(f->cep, cep, 100);
     printf("|--------------------------------------------------------------------|\n");
+
 
 
     printf("| Digite o novo Telefone:  ");
@@ -413,9 +410,12 @@ void mostrarAlteracaoFuncionario() {
     printf("|--------------------------------------------------------------------|\n");
 
 
-    printf("| Digite o novo RG:  ");
-    scanf("%d", &f->rg);
-    getchar();
+    printf("| INFORME O RG XXXXXXX: ");
+    char rg[100];
+    fgets(rg, sizeof (rg), stdin);
+    tamanho = strlen(rg);
+    rg[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
+    strncpy(f->rg, cidade, 100);
     printf("|--------------------------------------------------------------------|\n");
 
 
@@ -427,6 +427,7 @@ void mostrarAlteracaoFuncionario() {
     profissao[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
     strncpy(f->profissao, profissao, 100);
     printf("|--------------------------------------------------------------------|\n");
+
 
     printf("| Digite o novo PIS/PASEP:  ");
     char pis[100];

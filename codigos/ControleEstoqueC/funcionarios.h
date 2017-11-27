@@ -26,13 +26,13 @@ typedef struct {
     char sexo[3];
     char datanascimento[20];
     char endereco[200];
-    char Cidade[50];
-    int  cep;
-    char  telefone[13];
-    char  cpf[13];
-    int  rg;
+    char cidade[50];
+    char  cep[11];
+    char telefone[13];
+    char cpf[13];
+    char  rg[11];
     char profissao[100];
-    char  pispasep[12];
+    char pispasep[12];
     
 } Funcionarios;
 

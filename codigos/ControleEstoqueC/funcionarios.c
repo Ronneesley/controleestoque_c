@@ -49,7 +49,7 @@ void mostrarListagemFuncionarios() {
                             id, nome, sexo, datanascimento, endereco, cidade, cep, telefone, cpf, rg, profissao, pispasep);
 
                 }
- 
+
                 //Libera os resultado e fecha a conexão
                 mysql_free_result(resultado);
                 mysql_close(&mysql);

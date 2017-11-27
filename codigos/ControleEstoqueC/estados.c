@@ -2,7 +2,7 @@
 
 /**
  * Lista todos os países cadastrados no banco de dados
- * Autor: Ana Luiza, Alexandre, Samuel, Antonio
+ * Autor: Alexandre, Ana Luiza, Antonio, Darvesson, Samuel
  * Data: 02/10/2017
  */
 
@@ -256,7 +256,7 @@ Estado* selecionarEstado(int codigo) {
                 mysql_close(&mysql);
 
                 Estado *e = (Estado *) malloc(sizeof(Estado)); // alocação dinâmica de memória
-                strncpy(e->nomeEstado, linha[1], 60);
+                strncpy(e->nomeEstado, linha[1], 100);
                 strncpy(e->uf, linha[2], 3);
                 e->idEstado = idEstado;
                 e->idPais = idPais;

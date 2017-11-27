@@ -415,7 +415,7 @@ void mostrarAlteracaoFuncionario() {
     fgets(rg, sizeof (rg), stdin);
     tamanho = strlen(rg);
     rg[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->rg, cidade, 100);
+    strncpy(f->rg, rg, 100);
     printf("|--------------------------------------------------------------------|\n");
 
 
@@ -434,7 +434,7 @@ void mostrarAlteracaoFuncionario() {
     fgets(pis, sizeof (pis), stdin);
     tamanho = strlen(pis);
     cpf[tamanho - 1] = '\0'; //Retira o \n do final da string e coloca \0
-    strncpy(f->cpf, pis, 100);
+    strncpy(f->pispasep, pis, 100);
     printf("|--------------------------------------------------------------------|\n");
 
 

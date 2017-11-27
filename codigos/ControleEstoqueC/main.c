@@ -37,6 +37,7 @@ void mostrarMenuPrincipal(){
         switch (opcao){
             case 1: mostrarListagemPaises(); break;
             case 2: mostrarListagemEstados(); break;
+            case 3: mostrarListagemCidades();break;
             case 4: mostrarListagemClientes(); break;
             case 6: MenuFornecedores();break;
             case 8: mostrarListagemFuncionarios(); break;
